@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account · DevToolKit</title>
+    <!-- Bootstrap 5 (light grid only) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+   body {
+        min-height: 100vh;
+        background-image: url("images/desktopbg1.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        background-color: #f8f2ec;
+      }
+      @media (max-width: 992px) {
+        body {
+          background-image: url("images/phone.png");
+        }
+      }
+      .card-login {
+        border-radius: 48px 48px 48px 48px;
+        padding: 2rem 2rem 2rem 2rem;
+        width: 100%;
+        max-width: 1120px;
+        margin: 0 auto;
+        transition: all 0.2s;
+        border: 1px solid rgba(255, 235, 225, 0.4);
+      }
+
+      .row-main {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* left side – illustration + tagline */
+      .col-illustration {
+        flex: 0 0 48%;
+        max-width: 48%;
+        padding: 0.5rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+
+        transform: translateX(-50px);
+      }
+
+      .illustration-img {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        margin-bottom: 0.5rem;
+        display: block;
+        filter: drop-shadow(0 8px 12px rgba(90, 60, 40, 0.08));
+      }
+
+      .tagline-brand {
+        font-family: "Times New Roman", Times, serif;
+        font-weight: 700;
+        font-size: 2.1rem;
+        letter-spacing: -0.02em;
+        color: #3e2c23;
+        margin-top: 0.2rem;
+        line-height: 1.2;
+      }
+
+      .tagline-sub {
+        font-family: "Times New Roman", Times, serif;
+        font-weight: 400;
+        font-size: 1.2rem;
+        color: #6e5d54;
+        margin-top: -0.2rem;
+        letter-spacing: 0.3px;
+      }
+
+      /* right side – login form */
+      .col-form {
+        flex: 0 0 48%;
+        max-width: 48%;
+        padding: 0.5rem 1.5rem 0.5rem 3rem;
+        padding-left: 4rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .login-card {
+        background: transparent;
+        width: 100%;
+        max-width: 440px;
+        margin: 0;
+        margin-left: 35px;
+        padding: 0.2rem 0;
+      }
+
+      .logo-dev {
+        height: 70px;
+        width: auto;
+        margin: 0 auto 0.5rem;
+        display: block;
+      }
+
+      .welcome-head {
+        font-family: "Times New Roman", Times, serif;
+        font-weight: 600;
+        font-size: 2.2rem;
+        color: #3e2c23;
+        margin-bottom: 0.1rem;
+        line-height: 1.2;
+        letter-spacing: -0.3px;
+        text-align: center;
+      }
+
+      .welcome-sub {
+        font-family: "Times New Roman", Times, serif;
+        font-weight: 300;
+        font-size: 1.2rem;
+        color: #5c4a42;
+        margin-bottom: 1.6rem;
+        margin-top: -0.1rem;
+        text-align: center;
+      }
+
+      .form-group {
+        margin-bottom: 1rem; /* reduced from 1.2rem to keep card balanced */
+        width: 100%;
+      }
+
+      .form-group label {
+        display: block;
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: #3e2c23;
+        margin-bottom: 0.2rem;
+        letter-spacing: -0.2px;
+      }
+
+      .input-custom {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid #b88a5e;
+        border-radius: 40px;
+        background: rgba(255, 248, 240, 0.7);
+        backdrop-filter: blur(2px);
+        font-size: 0.95rem;
+        outline: none;
+        transition:
+          border 0.2s,
+          box-shadow 0.2s;
+        color: #2d1f18;
+      }
+
+      .input-custom:focus {
+        border-color: #9b6b3c;
+        box-shadow: 0 0 0 3px rgba(161, 98, 7, 0.2);
+        background: #fffcf7;
+      }
+
+      .input-custom::placeholder {
+        color: #a28b7a;
+        font-weight: 300;
+        opacity: 0.8;
+      }
+
+      .options-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        margin: 0.3rem 0 0.8rem 0;
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+      }
+
+      .remember-wrap {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        color: #3e2c23;
+        font-weight: 400;
+      }
+
+      .remember-wrap input[type="checkbox"] {
+        width: 1rem;
+        height: 1rem;
+        accent-color: #a16207;
+        border-radius: 4px;
+        border: 2px solid #b88a5e;
+        cursor: pointer;
+      }
+
+      .forgot-link {
+        color: #a16207;
+        text-decoration: none;
+        font-weight: 450;
+        font-size: 0.9rem;
+        border-bottom: 1px solid transparent;
+        transition: border 0.15s;
+      }
+
+      .forgot-link:hover {
+        border-bottom: 1px solid #a16207;
+        color: #7f4d05;
+      }
+
+      .btn-primary-custom {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #a16207;
+        border: 2px solid #a16207;
+        border-radius: 40px;
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        margin-top: 0.2rem;
+        cursor: pointer;
+      }
+
+      .btn-primary-custom:hover {
+        background-color: #814e08;
+        border-color: #814e08;
+        transform: scale(1.01);
+        box-shadow: 0 6px 14px rgba(129, 78, 8, 0.2);
+      }
+
+      .divider-or {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        margin: 0.8rem 0 0.4rem 0;
+      }
+
+      .divider-line {
+        flex: 1;
+        height: 1.5px;
+        background: #d6c5b8;
+        opacity: 0.7;
+      }
+
+      .divider-text {
+        font-size: 1rem;
+        color: #5c4a42;
+        font-weight: 400;
+        letter-spacing: 0.3px;
+        background: rgba(255, 247, 242, 0.4);
+        padding: 0 6px;
+      }
+
+      .btn-google {
+        width: 100%;
+        padding: 0.7rem;
+        background-color: #ffffff;
+        border: 2px solid #b88a5e;
+        border-radius: 40px;
+        color: #a16207;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.25s ease;
+        margin: 0.4rem 0 0.8rem 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .btn-google:hover {
+        background-color: #a16207;
+        color: #ffffff;
+        border-color: #a16207;
+        box-shadow: 0 6px 14px rgba(161, 98, 7, 0.15);
+      }
+
+      .btn-google svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .create-account-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.95rem;
+        color: #3e2c23;
+        margin-top: 0.1rem;
+        flex-wrap: wrap;
+      }
+
+      .create-link {
+        color: #a16207;
+        text-decoration: none;
+        font-weight: 500;
+        border-bottom: 1px solid transparent;
+        transition: border 0.15s;
+      }
+
+      .create-link:hover {
+        border-bottom: 1px solid #a16207;
+        color: #7f4d05;
+      }
+
+      /* small tweaks for alignment */
+      .login-card .form-group:last-of-type {
+        margin-bottom: 0.2rem;
+      }
+
+      /* responsive */
+  @media (max-width: 992px) {
+        .card-login {
+          border-radius: 32px;
+          padding: 1.8rem 1.2rem;
+          max-width: 96%;
+        }
+        .col-illustration,
+        .col-form {
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
+        .col-illustration {
+          margin-bottom: 0.5rem;
+          transform: none;
+        }
+        .illustration-img {
+          max-width: 260px;
+        }
+        .tagline-brand {
+          font-size: 1.8rem;
+        }
+        .col-form {
+          padding-left: 1.5rem;
+        }
+        .login-card {
+          max-width: 380px;
+          margin-left: 0;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .card-login {
+          padding: 1.2rem 0.8rem;
+          border-radius: 28px;
+        }
+        .logo-dev {
+          height: 58px;
+        }
+        .welcome-head {
+          font-size: 1.8rem;
+        }
+        .welcome-sub {
+          font-size: 1rem;
+        }
+        .btn-google,
+        .btn-primary-custom {
+          font-size: 0.9rem;
+        }
+      }
+
+      /* extra polish */
+      .input-custom:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 1000px #fcf5ef inset !important;
+        -webkit-text-fill-color: #2d1f18;
+        border-color: #b88a5e;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="container d-flex align-items-center justify-content-center min-vh-100 py-3"
+    >
+      <div class="card-login">
+        <div class="row-main">
+          <!-- left: illustration + tagline -->
+          <div class="col-illustration">
+            <!-- using the same illustration – replace with desktop-signup-pic.png if needed -->
+            <img
+              src="images/desktop-login-pic-removebg-preview.png"
+              alt="DevToolKit illustration"
+              class="illustration-img"
+            />
+            <div class="tagline-brand">Build. Debug. Deploy.</div>
+            <div class="tagline-sub">
+              Everything developers need in one toolkit.
+            </div>
+          </div>
+
+          <!-- right: signup form (sibling of login) -->
+          <div class="col-form">
+            <div class="login-card">
+              <!-- logo -->
+              <img
+                src="images/devtoolkit-logo.png"
+                alt="DevToolKit logo"
+                class="logo-dev"
+              />
+
+              <!-- warmer heading: "Join DevToolKit" -->
+              <h1 class="welcome-head">Join DevToolKit</h1>
+              <p class="welcome-sub">
+                Build, debug, and deploy with confidence.
+              </p>
+              <form id="signupForm" autocomplete="off">
+                <!-- 1. Full Name (new) -->
+                <div class="form-group">
+                  <label for="nameInput">Full Name</label>
+                  <input
+                    type="text"
+                    id="nameInput"
+                    class="input-custom"
+                    required
+                    placeholder="Enter your full name"
+                  />
+                </div>
+
+                <!-- 2. Email (unchanged) -->
+                <div class="form-group">
+                  <label for="emailInput">Email Address</label>
+                 <input
+type="email"
+id="emailInput"
+class="input-custom"
+required
+placeholder="Enter your email">
+                </div>
+
+                <!-- 3. Password (two fields) -->
+                <div class="form-group">
+                  <label for="passwordInput">Password</label>
+                  <input
+type="password"
+id="passwordInput"
+class="input-custom"
+required
+minlength="6"
+placeholder="Create a password">
+                </div>
+
+                <div class="form-group">
+                  <input
+type="password"
+id="confirmPassword"
+class="input-custom"
+required
+placeholder="Confirm your password">
+                </div>
+
+                <!-- 4. Terms & Conditions (instead of remember/forgot) -->
+                <div class="options-row">
+                  <label class="remember-wrap">
+                    <input type="checkbox" required />
+                    I agree to the
+                    <a href="terms.html" class="create-link">Terms & Conditions</a>
+                  </label>
+                </div>
+
+                <!-- 5. Create Account button -->
+                <button type="submit" class="btn-primary-custom">
+                  Create Account
+                </button>
+
+                <div class="divider-or">
+                  <span class="divider-line"></span>
+                  <span class="divider-text">or</span>
+                  <span class="divider-line"></span>
+                </div>
+
+              
+
+                <!-- 7. Bottom text: "Already have an account? Sign In" -->
+                <div class="create-account-row">
+                  <span>Already have an account?</span>
+                  <a href="sign-in.html" class="create-link">Sign In</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", function (e) {
+          if (!this.checkValidity()) {
+            e.preventDefault();
+            this.reportValidity();
+            return;
+          }
+
+          const password = document.getElementById("passwordInput").value;
+          const confirmPassword =
+            document.getElementById("confirmPassword").value;
+
+          if (password !== confirmPassword) {
+            e.preventDefault();
+            alert("Passwords do not match!");
+            return;
+          }
+
+          e.preventDefault();
+
+          alert("Account created successfully!");
+
+          window.location.href = "dashboard.html";
+        });
+    </script>
+  </body>
+</html>

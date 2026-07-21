@@ -1,0 +1,4962 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DevToolkit · Caramel Brown Edition</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- Bootstrap Icons CDN (required for icons) -->
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* === GLOBAL / BACKGROUND (Warm Ivory) === */
+      body {
+        background-color: #f8f4ee; /* Warm Ivory */
+        font-family:
+          system-ui,
+          "Segoe UI",
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+      }
+
+      /* === SIDEBAR (Cream White) === */
+      .sidebar {
+        width: 260px;
+        height: 100vh;
+        background-color: #fffdf9; /* Cream White */
+        position: fixed;
+        top: 0;
+        left: 0;
+        border-right: 1px solid #d6c7b8; /* Beige Gray */
+        box-shadow: 0 4px 12px rgba(62, 44, 35, 0.05);
+        z-index: 10;
+        overflow-y: auto;
+        transition: all 0.2s ease;
+      }
+
+      .sidebar h1 {
+        color: #a16207; /* Caramel Brown (Primary Accent) */
+        padding: 28px 0 20px 0;
+        font-size: 28px;
+        text-align: center;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+        margin: 0;
+      }
+
+      .sidebar-link {
+        color: #3e2c23; /* Espresso Brown (Main Text) */
+        padding: 14px 24px;
+        font-size: 16px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: all 0.2s ease;
+        margin: 4px 12px;
+        border-radius: 12px;
+        cursor: pointer;
+      }
+
+      .sidebar-link i {
+        font-size: 1.3rem;
+        width: 28px;
+      }
+
+      .sidebar-link:hover {
+        background: #fef7e6; /* very light caramel tint */
+        color: #854d0e; /* Dark Caramel (Hover Accent) */
+        transform: translateX(2px);
+      }
+
+      /* System status box */
+      .box1 {
+        background-color: #ffffff; /* Soft White */
+        border: 1px solid #d6c7b8; /* Beige Gray */
+        border-radius: 20px;
+        margin: 32px 20px 20px 20px;
+        padding: 16px 12px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(62, 44, 35, 0.05);
+      }
+
+      .box1 p:first-child {
+        color: #7b6a58; /* Mocha Gray (Secondary Text) */
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        margin-bottom: 6px;
+      }
+
+      .box1 p:last-child {
+        color: #65a30d; /* Sage Green (Success) */
+        font-weight: 700;
+        font-size: 14px;
+        margin: 0;
+      }
+
+      /* === MAIN DASHBOARD LAYOUT === */
+      .main-content-dashboard {
+        margin-left: 270px;
+        padding: 28px 32px 40px 32px;
+      }
+
+      /* Dashboard heading */
+      .main-content-dashboard h1 {
+        color: #3e2c23; /* Espresso Brown */
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .main-content-dashboard > p {
+        color: #7b6a58; /* Mocha Gray */
+        font-size: 16px;
+        max-width: 780px;
+        margin-bottom: 24px;
+      }
+
+      /* cards grid */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 24px;
+        margin-top: 16px;
+        margin-bottom: 32px;
+      }
+
+      .card {
+        background: #ffffff; /* Soft White */
+        border: 1px solid #d6c7b8; /* Beige Gray */
+        border-radius: 20px;
+        padding: 24px;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(62, 44, 35, 0.05);
+      }
+
+      .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 24px rgba(62, 44, 35, 0.08);
+      }
+
+      .icon-box {
+        width: 56px;
+        height: 56px;
+        background-color: #fef7e6; /* Light caramel tint */
+        color: #a16207; /* Caramel Brown */
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+
+      .card h5 {
+        color: #3e2c23; /* Espresso Brown */
+        font-weight: 700;
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+      }
+
+      .card p {
+        color: #7b6a58; /* Mocha Gray */
+        font-size: 14px;
+        line-height: 1.45;
+        margin-bottom: 20px;
+      }
+
+      .crd-btn {
+        background: #a16207; /* Caramel Brown */
+        color: white;
+        border: none;
+        display: inline-block;
+        padding: 10px 18px;
+        border-radius: 40px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        width: fit-content;
+      }
+
+      .crd-btn:hover {
+        background: #854d0e; /* Dark Caramel (Hover Accent) */
+        color: white;
+        transform: scale(1.02);
+        box-shadow: 0 4px 10px rgba(161, 98, 7, 0.3);
+      }
+
+      /* Recent Activity panel */
+      .recent-activity {
+        background: #ffffff; /* Soft White */
+        border: 1px solid #d6c7b8; /* Beige Gray */
+        border-radius: 20px;
+        padding: 24px;
+        margin-top: 16px;
+        box-shadow: 0 4px 12px rgba(62, 44, 35, 0.05);
+      }
+
+      .recent-activity h3 {
+        color: #3e2c23; /* Espresso Brown */
+        font-weight: 700;
+        font-size: 1.4rem;
+        margin-bottom: 4px;
+      }
+
+      .recent-activity p {
+        color: #7b6a58; /* Mocha Gray */
+        font-size: 14px;
+      }
+
+      .recent-activity a {
+        color: #a16207; /* Caramel Brown */
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      .recent-activity a:hover {
+        text-decoration: underline;
+        color: #854d0e; /* Dark Caramel */
+      }
+
+      .activity-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+      }
+
+      .activity-table th {
+        text-align: left;
+        color: #7b6a58; /* Mocha Gray */
+        padding: 16px 8px 12px 8px;
+        border-bottom: 1px solid #d6c7b8;
+        font-weight: 600;
+        font-size: 13px;
+      }
+
+      .activity-table td {
+        color: #3e2c23; /* Espresso Brown */
+        padding: 16px 8px;
+        border-bottom: 1px solid #d6c7b8;
+        font-size: 14px;
+      }
+
+      .activity-table i {
+        color: #a16207; /* Caramel Brown */
+        margin-right: 8px;
+        font-size: 1rem;
+      }
+
+      .tiny-details {
+        background: #ffffff; /* Soft White */
+        border: 1px solid #d6c7b8;
+        border-radius: 16px;
+        padding: 14px 24px;
+        margin-top: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #3e2c23;
+        font-size: 13px;
+        box-shadow: 0 4px 12px rgba(62, 44, 35, 0.05);
+      }
+
+      .status-left,
+      .status-right {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+      }
+
+      .status-left i {
+        color: #65a30d; /* Sage Green (Success) */
+        font-size: 10px;
+        margin-right: 6px;
+      }
+
+      .status-left span,
+      .status-right span {
+        color: #3e2c23;
+        font-weight: 500;
+      }
+
+      /* ========= JSON PAGE STYLES (caramel brown palette) ========= */
+      .main-content-JSON {
+        margin-left: 270px;
+        padding: 28px 32px 32px 32px;
+      }
+
+      /* Navbar */
+      .navbar-custom {
+        background: #ffffff; /* Soft White */
+        border: 1px solid #d6c7b8;
+        border-radius: 20px;
+        box-shadow: 0 4px 12px rgba(62, 44, 35, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 24px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+
+      .left-section {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .left-section h2 {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: #3e2c23; /* Espresso Brown */
+        margin: 0;
+      }
+
+      .divider {
+        width: 1px;
+        height: 28px;
+        background: #d6c7b8;
+      }
+
+      .version-badge {
+        background: #fef7e6;
+        border: 1px solid #fde68a; /* light caramel border */
+        color: #a16207; /* Caramel Brown */
+        padding: 5px 12px;
+        border-radius: 40px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: #a16207; /* Caramel Brown */
+        border: 1px solid #a16207;
+        border-radius: 40px;
+        padding: 8px 18px;
+        font-weight: 600;
+        font-size: 13px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .btn-outline:hover {
+        background: #fef7e6;
+        transform: translateY(-1px);
+        color: #854d0e; /* Dark Caramel */
+        border-color: #854d0e;
+      }
+
+      .btn-primary-custom {
+        background: #a16207; /* Caramel Brown */
+        color: white;
+        border: none;
+        padding: 9px 20px;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 4px 12px rgba(161, 98, 7, 0.25);
+      }
+
+      .btn-primary-custom:hover {
+        background: #854d0e; /* Dark Caramel (Hover Accent) */
+        transform: translateY(-1px);
+      }
+
+      /* JSON panels */
+      .main-content-JSON .main-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        height: calc(100vh - 190px);
+        min-height: 500px;
+      }
+
+      .main-content-JSON .main-content > div {
+        background: #ffffff;
+        border: 1px solid #d6c7b8;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(62, 44, 35, 0.05);
+      }
+
+      .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 20px;
+        border-bottom: 1px solid #d6c7b8;
+        background: #ffffff;
+      }
+
+      .panel-header span {
+        color: #7b6a58; /* Mocha Gray */
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      textarea#json-input {
+        flex: 1;
+        background: #ffffff;
+        color: #3e2c23; /* Espresso Brown */
+        border: none;
+        outline: none;
+        padding: 20px;
+        font-family: "SF Mono", "Fira Code", monospace;
+        font-size: 13px;
+        resize: none;
+        line-height: 1.55;
+      }
+
+      pre#json-output {
+        flex: 1;
+        margin: 0;
+        padding: 20px;
+        font-family: "SF Mono", "Fira Code", monospace;
+        font-size: 13px;
+        color: #a16207; /* Caramel Brown for output */
+        overflow: auto;
+        line-height: 1.55;
+        background: #ffffff;
+      }
+
+      /* error bar with Terracotta Red */
+      #error-bar {
+        display: none;
+        background: #fef2f2;
+        border-top: 1px solid #fecaca;
+        padding: 12px 20px;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      #error-bar .error-content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      #error-bar i {
+        color: #dc2626; /* Terracotta Red (Error) */
+        font-size: 1.1rem;
+      }
+
+      #error-bar div div:first-child {
+        color: #dc2626; /* Terracotta Red */
+        font-weight: 700;
+        font-size: 13px;
+      }
+
+      #error-msg {
+        color: #b91c1c;
+        font-size: 12px;
+      }
+
+      button#close-error-btn {
+        background: transparent;
+        border: none;
+        color: #9ca3af;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+
+      /* misc */
+      a {
+        text-decoration: none;
+      }
+
+      /* responsiveness */
+      @media (max-width: 900px) {
+        .sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
+          border-right: none;
+          border-bottom: 1px solid #d6c7b8;
+        }
+        .main-content-dashboard,
+        .main-content-JSON {
+          margin-left: 0;
+          padding: 20px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .main-content-JSON .main-content {
+          grid-template-columns: 1fr;
+          height: auto;
+          gap: 20px;
+        }
+      }
+
+      /* section toggle */
+      #dashboard {
+        display: block;
+      }
+      #json {
+        display: none;
+      }
+
+      .sidebar-link.active {
+        background: #fef7e6;
+        color: #a16207;
+        font-weight: 600;
+      }
+
+      /* ========== CASE CONVERTER DEDICATED STYLES ========== */
+      /* Matches exact design system palette */
+      .main-content-text {
+        margin-left: 270px;
+        padding: 28px 32px;
+      }
+      :root {
+        --bg-warm-ivory: #f8f4ee;
+        --soft-white: #ffffff;
+        --caramel: #a16207;
+        --dark-caramel: #854d0e;
+        --espresso: #3e2c23;
+        --mocha-gray: #7b6a58;
+        --beige-gray: #d6c7b8;
+        --panel-header-bg: #fdfaf6;
+      }
+
+      .case-converter-wrapper {
+        background: var(--bg-warm-ivory);
+        font-family:
+          system-ui,
+          "Segoe UI",
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        padding: 0;
+        margin: 0;
+      }
+
+      /* Reusable components matching existing classes */
+      .btn-outline-case {
+        background: transparent;
+        color: var(--caramel);
+        border: 1px solid var(--caramel);
+        border-radius: 40px;
+        padding: 8px 18px;
+        font-weight: 600;
+        font-size: 13px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .btn-outline-case:hover {
+        background: #fef7e6;
+        transform: translateY(-1px);
+        color: var(--dark-caramel);
+        border-color: var(--dark-caramel);
+      }
+
+      .btn-primary-case {
+        background: var(--caramel);
+        color: white;
+        border: none;
+        padding: 9px 20px;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 4px 12px rgba(161, 98, 7, 0.25);
+      }
+
+      .btn-primary-case:hover {
+        background: var(--dark-caramel);
+        transform: translateY(-1px);
+      }
+
+      .text-panel-case {
+        background: var(--soft-white);
+        border: 1px solid var(--beige-gray);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(62, 44, 35, 0.05);
+      }
+
+      .text-panel-header-case {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--beige-gray);
+        background: var(--panel-header-bg);
+      }
+
+      .text-panel-header-case span {
+        color: var(--mocha-gray);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.8px;
+      }
+
+      .metric-box-case {
+        background: var(--bg-warm-ivory);
+        border-radius: 14px;
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .metric-label-case {
+        color: var(--mocha-gray);
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .metric-value-case {
+        color: var(--espresso);
+        font-size: 1.8rem;
+        font-weight: 700;
+      }
+
+      /* conversion grid */
+      .conversion-grid-case {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin: 20px 0;
+      }
+
+      .case-btn {
+        background: var(--soft-white);
+        border: 1px solid var(--beige-gray);
+        border-radius: 16px;
+        padding: 12px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: var(--espresso);
+        font-size: 13px;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .case-btn:hover {
+        background: #fef7e6;
+        border-color: var(--caramel);
+        color: var(--caramel);
+        transform: translateY(-2px);
+      }
+
+      .case-example {
+        font-size: 11px;
+        font-family: "SF Mono", "Fira Code", monospace;
+        color: var(--caramel);
+        background: #fef7e6;
+        padding: 3px 8px;
+        border-radius: 24px;
+        display: inline-block;
+        margin-top: 4px;
+      }
+
+      .output-preview-case {
+        background: var(--soft-white);
+        font-family: "SF Mono", "Fira Code", monospace;
+        font-size: 14px;
+        color: var(--espresso);
+        padding: 20px;
+        min-height: 120px;
+        white-space: pre-wrap;
+        word-break: break-word;
+        line-height: 1.5;
+      }
+
+      .status-message-case {
+        background: #fef2f2;
+        border-left: 4px solid #dc2626;
+        padding: 12px 16px;
+        border-radius: 14px;
+        font-size: 13px;
+        color: #b91c1c;
+        display: none;
+        align-items: center;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .status-message-case.success {
+        background: #ecfdf5;
+        border-left-color: #10b981;
+        color: #065f46;
+      }
+
+      .status-message-case i {
+        font-size: 1.1rem;
+      }
+
+      textarea.case-textarea {
+        width: 100%;
+        border: none;
+        outline: none;
+        padding: 18px;
+        font-size: 14px;
+        resize: vertical;
+        color: var(--espresso);
+        background: var(--soft-white);
+        line-height: 1.6;
+        font-family: inherit;
+      }
+
+      textarea.case-textarea:focus {
+        background: var(--soft-white);
+      }
+
+      .right-stats-case {
+        background: var(--soft-white);
+        border: 1px solid var(--beige-gray);
+        border-radius: 20px;
+        padding: 20px;
+        height: fit-content;
+      }
+
+      .stats-grid-case {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      @media (max-width: 800px) {
+        .case-converter-main {
+          flex-direction: column;
+        }
+        .conversion-grid-case {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      /* ========== CHARACTER COUNTER - DESIGN SYSTEM ========== */
+      #counter {
+        margin-left: 270px;
+        padding: 28px 32px;
+      }
+      .counter-section {
+        background: #f8f4ee;
+        font-family:
+          system-ui,
+          "Segoe UI",
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+      }
+
+      .counter-container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      /* Header styles */
+      .counter-header {
+        margin-bottom: 28px;
+      }
+
+      .counter-header h1 {
+        color: #3e2c23;
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0 0 6px 0;
+      }
+
+      .counter-header p {
+        color: #7b6a58;
+        font-size: 15px;
+        margin: 0;
+      }
+
+      /* Two column layout */
+      .counter-two-columns {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 24px;
+      }
+
+      /* LEFT PANEL - Textarea */
+      .counter-text-panel {
+        background: #ffffff;
+        border: 1px solid #d6c7b8;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(62, 44, 35, 0.05);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .counter-panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 20px;
+        border-bottom: 1px solid #d6c7b8;
+        background: #fdfaf6;
+      }
+
+      .counter-panel-header span {
+        color: #7b6a58;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.8px;
+      }
+
+      .counter-textarea {
+        width: 100%;
+        min-height: 450px;
+        border: none;
+        outline: none;
+        padding: 20px;
+        font-size: 15px;
+        resize: vertical;
+        color: #3e2c23;
+        background: #ffffff;
+        line-height: 1.65;
+        font-family: inherit;
+      }
+
+      .counter-textarea:focus {
+        background: #ffffff;
+      }
+
+      /* RIGHT PANEL - Metrics & Keyword Density */
+      .counter-metrics-panel {
+        background: #ffffff;
+        border: 1px solid #d6c7b8;
+        border-radius: 20px;
+        box-shadow: 0 4px 12px rgba(62, 44, 35, 0.05);
+        overflow: hidden;
+      }
+
+      .counter-metrics-header {
+        padding: 14px 20px;
+        border-bottom: 1px solid #d6c7b8;
+        background: #fdfaf6;
+      }
+
+      .counter-metrics-header h3 {
+        color: #3e2c23;
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .counter-metrics-grid {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .counter-metric-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 8px 0;
+        border-bottom: 1px solid #f0ebe4;
+      }
+
+      .counter-metric-label {
+        color: #7b6a58;
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .counter-metric-value {
+        color: #3e2c23;
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      .counter-metric-value.small {
+        font-size: 16px;
+      }
+
+      /* Keyword density section */
+      .counter-keyword-section {
+        padding: 0 20px 20px 20px;
+        border-top: 1px solid #d6c7b8;
+        margin-top: 8px;
+      }
+
+      .counter-keyword-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 14px;
+        padding-top: 16px;
+      }
+
+      .counter-keyword-header h4 {
+        color: #3e2c23;
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .counter-keyword-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .counter-keyword-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #f0ebe4;
+      }
+
+      .counter-keyword-word {
+        color: #a16207;
+        font-weight: 600;
+        font-size: 13px;
+        background: #fef7e6;
+        padding: 4px 10px;
+        border-radius: 20px;
+      }
+
+      .counter-keyword-count {
+        color: #7b6a58;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .counter-no-data {
+        color: #7b6a58;
+        font-size: 13px;
+        text-align: center;
+        padding: 20px 0;
+        font-style: italic;
+      }
+
+      /* Buttons */
+      .counter-btn-outline {
+        background: transparent;
+        color: #a16207;
+        border: 1px solid #a16207;
+        border-radius: 40px;
+        padding: 8px 18px;
+        font-weight: 600;
+        font-size: 13px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .counter-btn-outline:hover {
+        background: #fef7e6;
+        transform: translateY(-1px);
+        color: #854d0e;
+        border-color: #854d0e;
+      }
+
+      .counter-btn-primary {
+        background: #a16207;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 4px 12px rgba(161, 98, 7, 0.25);
+      }
+
+      .counter-btn-primary:hover {
+        background: #854d0e;
+        transform: translateY(-1px);
+      }
+
+      /* Status message inline */
+      .counter-status-message {
+        background: #ecfdf5;
+        border-left: 4px solid #10b981;
+        padding: 10px 16px;
+        border-radius: 12px;
+        font-size: 12px;
+        color: #065f46;
+        display: none;
+        align-items: center;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .counter-status-message.error {
+        background: #fef2f2;
+        border-left-color: #dc2626;
+        color: #b91c1c;
+      }
+
+      .counter-status-message i {
+        font-size: 1rem;
+      }
+
+      /* Action buttons row */
+      .counter-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      /* Reading time specific style */
+      .counter-time-value {
+        color: #a16207;
+      }
+
+      @media (max-width: 800px) {
+        .counter-two-columns {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .counter-textarea {
+          min-height: 280px;
+        }
+      }
+
+      /* ========== BASE64 ENCODER/DECODER - DESIGN SYSTEM ========== */
+      .base64-wrapper {
+        background: #f8f4ee;
+        font-family:
+          system-ui,
+          "Segoe UI",
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        padding: 0;
+      }
+
+      .base64-container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      /* Header */
+      .base64-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .base64-header h1 {
+        color: #3e2c23;
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0 0 4px 0;
+      }
+
+      .base64-header p {
+        color: #7b6a58;
+        font-size: 15px;
+        margin: 0;
+      }
+
+      /* Mode toggle buttons */
+      .base64-mode-toggle {
+        display: flex;
+        gap: 8px;
+        background: #ffffff;
+        border: 1px solid #d6c7b8;
+        border-radius: 40px;
+        padding: 4px;
+        box-shadow: 0 4px 12px rgba(62, 44, 35, 0.05);
+      }
+
+      .base64-mode-btn {
+        background: transparent;
+        border: none;
+        border-radius: 40px;
+        padding: 8px 24px;
+        font-weight: 600;
+        font-size: 13px;
+        color: #7b6a58;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .base64-mode-btn.active {
+        background: #a16207;
+        color: white;
+        box-shadow: 0 4px 12px rgba(161, 98, 7, 0.25);
+      }
+
+      .base64-mode-btn:hover:not(.active) {
+        background: #fef7e6;
+        color: #a16207;
+      }
+
+      /* Action buttons */
+      .base64-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .base64-btn-outline {
+        background: transparent;
+        color: #a16207;
+        border: 1px solid #a16207;
+        border-radius: 40px;
+        padding: 8px 18px;
+        font-weight: 600;
+        font-size: 13px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .base64-btn-outline:hover {
+        background: #fef7e6;
+        transform: translateY(-1px);
+        color: #854d0e;
+        border-color: #854d0e;
+      }
+
+      .base64-btn-primary {
+        background: #a16207;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 4px 12px rgba(161, 98, 7, 0.25);
+      }
+
+      .base64-btn-primary:hover {
+        background: #854d0e;
+        transform: translateY(-1px);
+      }
+
+      .base64-btn-primary:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Two-panel layout */
+      .base64-panels {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+
+      /* Panel styles (matching JSON formatter) */
+      .base64-panel {
+        background: #ffffff;
+        border: 1px solid #d6c7b8;
+        border-radius: 20px;
+        box-shadow: 0 4px 12px rgba(62, 44, 35, 0.05);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        min-height: 380px;
+      }
+
+      .base64-panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 20px;
+        border-bottom: 1px solid #d6c7b8;
+        background: #fdfaf6;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .base64-panel-header span {
+        color: #7b6a58;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .base64-panel-header .base64-char-count {
+        color: #a16207;
+        font-size: 11px;
+        font-weight: 500;
+        background: #fef7e6;
+        padding: 2px 12px;
+        border-radius: 20px;
+      }
+
+      .base64-textarea {
+        flex: 1;
+        width: 100%;
+        min-height: 260px;
+        border: none;
+        outline: none;
+        padding: 20px;
+        font-size: 14px;
+        resize: vertical;
+        color: #3e2c23;
+        background: #ffffff;
+        line-height: 1.65;
+        font-family: "SF Mono", "Fira Code", monospace;
+      }
+
+      .base64-textarea:focus {
+        background: #ffffff;
+      }
+
+      .base64-textarea::placeholder {
+        color: #b8a99a;
+      }
+
+      .base64-output-area {
+        flex: 1;
+        min-height: 260px;
+        padding: 20px;
+        font-size: 14px;
+        color: #3e2c23;
+        background: #ffffff;
+        line-height: 1.65;
+        font-family: "SF Mono", "Fira Code", monospace;
+        white-space: pre-wrap;
+        word-break: break-all;
+        overflow-y: auto;
+      }
+
+      .base64-output-area.placeholder {
+        color: #b8a99a;
+      }
+
+      /* Copy button in output panel */
+      .base64-copy-btn {
+        background: transparent;
+        border: none;
+        color: #a16207;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 8px;
+        border-radius: 20px;
+        transition: all 0.2s ease;
+      }
+
+      .base64-copy-btn:hover {
+        background: #fef7e6;
+        color: #854d0e;
+      }
+
+      /* Status message (inline, no alerts) */
+      .base64-status {
+        display: none;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px;
+        border-radius: 12px;
+        font-size: 13px;
+        margin-top: 16px;
+        transition: all 0.2s ease;
+      }
+
+      .base64-status.success {
+        background: #ecfdf5;
+        border-left: 4px solid #10b981;
+        color: #065f46;
+      }
+
+      .base64-status.error {
+        background: #fef2f2;
+        border-left: 4px solid #dc2626;
+        color: #b91c1c;
+      }
+
+      .base64-status i {
+        font-size: 1.1rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 900px) {
+        .base64-panels {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .base64-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .base64-mode-toggle {
+          width: 100%;
+          justify-content: stretch;
+        }
+        .base64-mode-btn {
+          flex: 1;
+          text-align: center;
+        }
+      }
+      #base64 {
+        margin-left: 270px;
+        padding: 28px 32px;
+      }
+
+      /* ========== COLOR PICKER - DESIGN SYSTEM ========== */
+      .color-wrapper {
+        background: #f8f4ee;
+        font-family:
+          system-ui,
+          "Segoe UI",
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+      }
+
+      .color-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Header */
+      .color-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .color-header h1 {
+        color: #3e2c23;
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0 0 4px 0;
+      }
+
+      .color-header p {
+        color: #7b6a58;
+        font-size: 15px;
+        margin: 0;
+      }
+
+      /* Action buttons */
+      .color-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .color-btn-outline {
+        background: transparent;
+        color: #a16207;
+        border: 1px solid #a16207;
+        border-radius: 40px;
+        padding: 8px 18px;
+        font-weight: 600;
+        font-size: 13px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .color-btn-outline:hover {
+        background: #fef7e6;
+        transform: translateY(-1px);
+        color: #854d0e;
+        border-color: #854d0e;
+      }
+
+      .color-btn-primary {
+        background: #a16207;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 4px 12px rgba(161, 98, 7, 0.25);
+      }
+
+      .color-btn-primary:hover {
+        background: #854d0e;
+        transform: translateY(-1px);
+      }
+
+      /* Main layout */
+      .color-grid {
+        display: grid;
+        grid-template-columns: 380px 1fr;
+        gap: 24px;
+      }
+
+      /* LEFT: Color picker + preview */
+      .color-picker-panel {
+        background: #ffffff;
+        border: 1px solid #d6c7b8;
+        border-radius: 20px;
+        box-shadow: 0 4px 12px rgba(62, 44, 35, 0.05);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .color-picker-panel label {
+        color: #7b6a58;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.8px;
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      .color-swatch-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .color-swatch-wrapper input[type="color"] {
+        width: 72px;
+        height: 72px;
+        border: 2px solid #d6c7b8;
+        border-radius: 16px;
+        padding: 4px;
+        cursor: pointer;
+        background: #ffffff;
+      }
+
+      .color-swatch-wrapper input[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 0;
+      }
+
+      .color-swatch-wrapper input[type="color"]::-webkit-color-swatch {
+        border: none;
+        border-radius: 12px;
+      }
+
+      .color-hex-input-group {
+        flex: 1;
+      }
+
+      .color-hex-input-group input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1px solid #d6c7b8;
+        border-radius: 12px;
+        font-size: 14px;
+        font-family: "SF Mono", "Fira Code", monospace;
+        color: #3e2c23;
+        background: #ffffff;
+        transition: border-color 0.2s ease;
+        outline: none;
+      }
+
+      .color-hex-input-group input:focus {
+        border-color: #a16207;
+        box-shadow: 0 0 0 3px rgba(161, 98, 7, 0.1);
+      }
+
+      .color-hex-input-group input.error {
+        border-color: #dc2626;
+        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+      }
+
+      /* Preview box */
+      .color-preview-box {
+        width: 100%;
+        height: 160px;
+        border-radius: 16px;
+        border: 1px solid #d6c7b8;
+        background: #a16207;
+        transition: background 0.2s ease;
+      }
+
+      /* RIGHT: Color format boxes */
+      .color-formats-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .color-format-card {
+        background: #ffffff;
+        border: 1px solid #d6c7b8;
+        border-radius: 16px;
+        padding: 16px 20px;
+        box-shadow: 0 4px 12px rgba(62, 44, 35, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.2s ease;
+      }
+
+      .color-format-card:hover {
+        transform: translateX(4px);
+        box-shadow: 0 8px 20px rgba(62, 44, 35, 0.08);
+      }
+
+      .color-format-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .color-format-label {
+        color: #7b6a58;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.8px;
+      }
+
+      .color-format-value {
+        color: #3e2c23;
+        font-size: 18px;
+        font-weight: 600;
+        font-family: "SF Mono", "Fira Code", monospace;
+      }
+
+      .color-copy-btn {
+        background: transparent;
+        border: none;
+        color: #a16207;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        padding: 6px 12px;
+        border-radius: 20px;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .color-copy-btn:hover {
+        background: #fef7e6;
+        color: #854d0e;
+      }
+
+      /* Status message */
+      .color-status {
+        display: none;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px;
+        border-radius: 12px;
+        font-size: 13px;
+        margin-top: 16px;
+        transition: all 0.2s ease;
+      }
+
+      .color-status.success {
+        background: #ecfdf5;
+        border-left: 4px solid #10b981;
+        color: #065f46;
+      }
+
+      .color-status.error {
+        background: #fef2f2;
+        border-left: 4px solid #dc2626;
+        color: #b91c1c;
+      }
+
+      .color-status i {
+        font-size: 1.1rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 900px) {
+        .color-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .color-picker-panel {
+          padding: 20px;
+        }
+        .color-swatch-wrapper {
+          flex-wrap: wrap;
+        }
+      }
+      #color-picker {
+        margin-left: 270px;
+        padding: 28px 32px;
+      }
+
+      .regex-wrapper {
+        --regex-bg: #f8f4ee;
+        --regex-surface: #ffffff;
+        --regex-border: #d6c7b8;
+        --regex-primary: #a16207;
+        --regex-primary-dark: #854d0e;
+        --regex-text: #3e2c23;
+        --regex-text-sec: #7b6a58;
+        --regex-soft: #f0e8df;
+        --regex-error-bg: #fef2f2;
+        --regex-error-border: #fecaca;
+        --regex-error-text: #b91c1c;
+        --regex-success: #10b981;
+        --regex-radius: 16px;
+        --regex-shadow: 0 4px 12px rgba(62, 44, 35, 0.06);
+
+        display: flex;
+        gap: 48px;
+        padding: 0 8px;
+        max-width: 1200px;
+        margin: 0 auto;
+        align-items: flex-start;
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        color: var(--regex-text);
+      }
+
+      /* ---- left column (illustration + copy) ---- */
+      .regex-wrapper .regex-left {
+        flex: 0 0 38%;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        position: sticky;
+        top: 32px;
+      }
+
+      .regex-wrapper .regex-illustration {
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+        display: block;
+      }
+
+      .regex-wrapper .regex-hero h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--regex-text);
+        margin: 0 0 6px 0;
+        line-height: 1.2;
+      }
+
+      .regex-wrapper .regex-hero p {
+        font-size: 15px;
+        color: var(--regex-text-sec);
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      .regex-wrapper .regex-features {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .regex-wrapper .regex-features li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 14px;
+        color: var(--regex-text-sec);
+      }
+
+      .regex-wrapper .regex-feature-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--regex-soft);
+        color: var(--regex-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      /* ---- right column (card) ---- */
+      .regex-wrapper .regex-right {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .regex-wrapper .regex-card {
+        background: var(--regex-surface);
+        border-radius: 40px;
+        border: 1px solid var(--regex-border);
+        box-shadow: var(--regex-shadow);
+        padding: 40px 40px 44px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .regex-wrapper .regex-card-header h2 {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--regex-text);
+        margin: 0 0 4px 0;
+      }
+
+      .regex-wrapper .regex-card-header p {
+        font-size: 13px;
+        color: var(--regex-text-sec);
+        margin: 0;
+      }
+
+      .regex-wrapper .regex-divider {
+        height: 1px;
+        background: var(--regex-border);
+        margin: 0;
+      }
+
+      /* ---- form fields ---- */
+      .regex-wrapper .regex-field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .regex-wrapper .regex-field label {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--regex-text);
+      }
+
+      /* pattern input with slashes */
+      .regex-wrapper .regex-pattern-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1.5px solid var(--regex-border);
+        background: var(--regex-bg);
+        border-radius: 12px;
+        padding: 0 14px;
+        height: 46px;
+        transition: border-color 0.2s;
+      }
+
+      .regex-wrapper .regex-pattern-wrap:focus-within {
+        border-color: var(--regex-primary);
+        box-shadow: 0 0 0 3px rgba(161, 98, 7, 0.12);
+      }
+
+      .regex-wrapper .regex-pattern-wrap .regex-slash {
+        font-family: "SF Mono", "Fira Code", monospace;
+        color: var(--regex-border);
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .regex-wrapper .regex-pattern-wrap input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        outline: none;
+        font-family: "SF Mono", "Fira Code", monospace;
+        font-size: 14px;
+        color: var(--regex-text);
+        padding: 8px 0;
+      }
+
+      .regex-wrapper .regex-pattern-wrap input::placeholder {
+        color: var(--regex-text-sec);
+        opacity: 0.45;
+      }
+
+      /* flags */
+      .regex-wrapper .regex-flags {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+
+      .regex-wrapper .regex-flag-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+        border: none;
+        background: none;
+        padding: 0;
+        transition: transform 0.1s;
+      }
+
+      .regex-wrapper .regex-flag-btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .regex-wrapper .regex-flag-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "SF Mono", "Fira Code", monospace;
+        font-size: 14px;
+        font-weight: 700;
+        border: 1.5px solid var(--regex-border);
+        background: var(--regex-soft);
+        color: var(--regex-text-sec);
+        transition: all 0.2s;
+      }
+
+      .regex-wrapper .regex-flag-btn.active .regex-flag-circle {
+        background: var(--regex-primary);
+        color: #fff;
+        border-color: var(--regex-primary);
+        box-shadow: 0 2px 8px rgba(161, 98, 7, 0.25);
+      }
+
+      .regex-wrapper .regex-flag-label {
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--regex-text-sec);
+        transition: color 0.2s;
+      }
+
+      .regex-wrapper .regex-flag-btn.active .regex-flag-label {
+        color: var(--regex-primary);
+      }
+
+      /* textarea */
+      .regex-wrapper .regex-textarea {
+        width: 100%;
+        min-height: 140px;
+        resize: vertical;
+        outline: none;
+        border: 1.5px solid var(--regex-border);
+        background: var(--regex-bg);
+        border-radius: 12px;
+        padding: 14px 16px;
+        font-size: 14px;
+        color: var(--regex-text);
+        line-height: 1.65;
+        font-family: "Inter", system-ui, sans-serif;
+        transition: border-color 0.2s;
+      }
+
+      .regex-wrapper .regex-textarea:focus {
+        border-color: var(--regex-primary);
+        box-shadow: 0 0 0 3px rgba(161, 98, 7, 0.1);
+      }
+
+      .regex-wrapper .regex-textarea::placeholder {
+        color: var(--regex-text-sec);
+        opacity: 0.4;
+      }
+
+      /* buttons */
+      .regex-wrapper .regex-btn-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .regex-wrapper .regex-btn-primary {
+        flex: 1;
+        padding: 12px 0;
+        border-radius: 12px;
+        background: var(--regex-primary);
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(161, 98, 7, 0.25);
+        transition:
+          background 0.2s,
+          transform 0.1s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-width: 120px;
+      }
+
+      .regex-wrapper .regex-btn-primary:hover {
+        background: var(--regex-primary-dark);
+      }
+
+      .regex-wrapper .regex-btn-primary:active {
+        transform: scale(0.97);
+      }
+
+      .regex-wrapper .regex-btn-secondary {
+        padding: 12px 24px;
+        border-radius: 12px;
+        background: transparent;
+        color: var(--regex-text-sec);
+        font-size: 15px;
+        font-weight: 600;
+        border: 1.5px solid var(--regex-border);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition:
+          background 0.2s,
+          color 0.2s,
+          transform 0.1s;
+      }
+
+      .regex-wrapper .regex-btn-secondary:hover {
+        background: var(--regex-soft);
+        color: var(--regex-text);
+      }
+
+      .regex-wrapper .regex-btn-secondary:active {
+        transform: scale(0.97);
+      }
+
+      /* ---- results panel ---- */
+      .regex-wrapper .regex-results {
+        display: none;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 4px;
+      }
+
+      .regex-wrapper .regex-results.visible {
+        display: flex;
+      }
+
+      .regex-wrapper .regex-error-box {
+        display: none;
+        align-items: flex-start;
+        gap: 10px;
+        background: var(--regex-error-bg);
+        border: 1px solid var(--regex-error-border);
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 13px;
+        color: var(--regex-error-text);
+      }
+
+      .regex-wrapper .regex-error-box.visible {
+        display: flex;
+      }
+
+      .regex-wrapper .regex-error-box svg {
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      .regex-wrapper .regex-results-box {
+        background: var(--regex-bg);
+        border: 1px solid var(--regex-border);
+        border-radius: 16px;
+        padding: 20px;
+        display: none;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .regex-wrapper .regex-results-box.visible {
+        display: flex;
+      }
+
+      .regex-wrapper .regex-stat-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .regex-wrapper .regex-stat-label {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--regex-text-sec);
+      }
+
+      .regex-wrapper .regex-stat-badge {
+        font-size: 13px;
+        font-weight: 700;
+        padding: 2px 12px;
+        border-radius: 999px;
+        background: var(--regex-soft);
+        color: var(--regex-text-sec);
+      }
+
+      .regex-wrapper .regex-stat-badge.has-matches {
+        background: var(--regex-primary);
+        color: #fff;
+      }
+
+      .regex-wrapper .regex-matches-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--regex-text);
+        margin: 0;
+      }
+
+      .regex-wrapper .regex-match-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .regex-wrapper .regex-match-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 2px 0;
+      }
+
+      .regex-wrapper .regex-match-num {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--regex-soft);
+        color: var(--regex-primary);
+        font-size: 10px;
+        font-family: "SF Mono", "Fira Code", monospace;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      #regex {
+        margin-left: 270px;
+        padding: 28px 32px;
+      }
+
+      .regex-wrapper .regex-match-chip {
+        font-family: "SF Mono", "Fira Code", monospace;
+        font-size: 13px;
+        padding: 2px 12px;
+        border-radius: 8px;
+        background: var(--regex-surface);
+        color: var(--regex-text);
+        border: 1px solid var(--regex-border);
+        word-break: break-all;
+      }
+
+      .regex-wrapper .regex-no-match {
+        font-size: 13px;
+        color: var(--regex-text-sec);
+        padding: 4px 0;
+      }
+
+      /* ---- responsive ---- */
+      @media (max-width: 900px) {
+        .regex-wrapper {
+          flex-direction: column;
+          padding: 0;
+          gap: 28px;
+        }
+
+        .regex-wrapper .regex-left {
+          flex: 1 1 auto;
+          position: static;
+          width: 100%;
+        }
+
+        .regex-wrapper .regex-illustration {
+          max-width: 200px;
+        }
+
+        .regex-wrapper .regex-card {
+          padding: 28px 20px 32px;
+        }
+
+        .regex-wrapper .regex-flags {
+          gap: 16px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .regex-wrapper .regex-btn-row {
+          flex-direction: column;
+        }
+
+        .regex-wrapper .regex-btn-primary,
+        .regex-wrapper .regex-btn-secondary {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .regex-wrapper .regex-card {
+          padding: 20px 16px 24px;
+        }
+
+        .regex-wrapper .regex-pattern-wrap {
+          padding: 0 10px;
+          height: 42px;
+        }
+      }
+
+
+
+
+
+
+
+
+
+
+      @media (max-width: 900px) {
+  .sidebar {
+    width: 100% !important;
+    height: auto !important;
+    position: relative !important;
+    border-right: none !important;
+  }
+  .main-content-dashboard,
+  .main-content-JSON,
+  .main-content-text,
+  #counter,
+  #base64,
+  #color-picker,
+  #regex {
+    margin-left: 0 !important;
+    padding: 16px !important;
+  }
+  .grid,
+  .counter-two-columns,
+  .base64-panels,
+  .color-grid,
+  .main-content-JSON .main-content,
+  .case-converter-main,
+  .regex-wrapper {
+    grid-template-columns: 1fr !important;
+    flex-direction: column !important;
+  }
+  .activity-table {
+    display: block !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+  }
+  .tiny-details,
+  .status-left,
+  .status-right {
+    flex-wrap: wrap !important;
+  }
+  .navbar-custom {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+  .navbar-custom > div {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+  .btn-outline,
+  .btn-primary-custom {
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+  }
+}
+    </style>
+  </head>
+  <body>
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <div class="sidebar">
+      <h1>DevToolkit</h1>
+      <a
+        href="#dashboard"
+        class="sidebar-link"
+        style="text-decoration: none"
+        data-section="dashboard"
+      >
+        <i class="bi bi-speedometer2"></i> Dashboard
+      </a>
+      <a
+        href="#json"
+        class="sidebar-link"
+        style="text-decoration: none"
+        data-section="json"
+      >
+        <i class="bi bi-code"></i> JSON
+      </a>
+      <a
+        href="#counter"
+        style="text-decoration: none"
+        class="sidebar-link"
+        data-section="counter"
+      >
+        <i class="bi bi-123"></i> Character Counter
+      </a>
+      <a
+        href="#text"
+        style="text-decoration: none"
+        class="sidebar-link"
+        data-section="text"
+      >
+        <i class="bi bi-fonts"></i> Text Case Converter
+      </a>
+      <a
+        href="#base64"
+        style="text-decoration: none"
+        class="sidebar-link"
+        data-section="base64"
+      >
+        <i class="bi bi-arrow-left-right"></i> Base64 Encoder/Decoder
+      </a>
+
+      <a
+        href="#color-picker"
+        style="text-decoration: none"
+        class="sidebar-link"
+        data-section="color-picker"
+      >
+        <i class="bi bi-palette2"></i> Color Picker
+      </a>
+
+      <a
+        href="#regex"
+        style="text-decoration: none"
+        class="sidebar-link"
+        data-section="regex"
+      >
+        <i class="bi bi-asterisk"></i> Regex
+      </a>
+      
+    </div>
+
+    <!-- DASHBOARD SECTION -->
+    <section id="dashboard">
+      <div class="main-content-dashboard">
+        <h1>Developer Utility Dashboard</h1>
+        <p>
+          Streamline your workflow with high-performance formatting, encoding,
+          and debugging tools designed for modern engineering teams.
+        </p>
+        <div class="grid">
+          <div class="card">
+            <div class="icon-box"><i class="bi bi-code"></i></div>
+            <h5>JSON Formatter & Validator</h5>
+            <p>Clean, beautify, and validate complex JSON structures.</p>
+            <a
+              href="#json"
+              class="crd-btn"
+              onclick="
+                event.preventDefault();
+                showSection('json');
+              "
+              >Open Tool</a
+            >
+          </div>
+          <div class="card">
+            <div class="icon-box"><i class="bi bi-fonts"></i></div>
+            <h5>Character Counter</h5>
+            <p>Analyze text length, word count, and byte size.</p>
+            <a
+              href="#counter"
+              class="crd-btn"
+              onclick="
+                event.preventDefault();
+                showSection('counter');
+              "
+              >Open Tool</a
+            >
+          </div>
+          <div class="card">
+            <div class="icon-box"><i class="bi bi-type-bold"></i></div>
+            <h5>Text Case Converter</h5>
+            <p>Switch between camelCase, snake_case, and kebab-case.</p>
+            <a
+              href="#text"
+              class="crd-btn"
+              onclick="
+                event.preventDefault();
+                showSection('text');
+              "
+              >Open Tool</a
+            >
+          </div>
+          <div class="card">
+            <div class="icon-box"><i class="bi bi-arrow-left-right"></i></div>
+            <h5>Base64 Encoder/Decoder</h5>
+            <p>Securely encode or decode strings and binary files.</p>
+            <a
+              href="#base64"
+              class="crd-btn"
+              onclick="
+                event.preventDefault();
+                showSection('base64');
+              "
+              >Open Tool</a
+            >
+          </div>
+          <div class="card">
+            <div class="icon-box"><i class="bi bi-palette2"></i></div>
+            <h5>Color Picker</h5>
+            <p>Translate HEX, RGB, HSL, and CMYK color formats.</p>
+            <a
+              href="#color-picker"
+              class="crd-btn"
+              onclick="
+                event.preventDefault();
+                showSection('color-picker');
+              "
+              >Open Tool</a
+            >
+          </div>
+          <div class="card">
+            <div class="icon-box"><i class="bi bi-asterisk"></i></div>
+            <h5>Regex Tester</h5>
+            <p>Debug regular expressions with real-time matching.</p>
+            <a
+              href="#regex"
+              class="crd-btn"
+              onclick="
+                event.preventDefault();
+                showSection('regex');
+              "
+              >Open Tool</a
+            >
+          </div>
+        </div>
+
+        <div class="recent-activity">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <div>
+              <h3>Recent Activity</h3>
+              <p>Your locally cached recent operations.</p>
+            </div>
+            <a href="#" id="clearHistoryBtn">Clear History</a>
+          </div>
+          <table class="activity-table" id="activityTable">
+            <thead>
+              <tr>
+                <th>Tool</th>
+                <th>Action</th>
+                <th>Time</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><i class="bi bi-code"></i> JSON Formatter</td>
+                <td>Beautified 1.2MB JSON</td>
+                <td>2 mins ago</td>
+                <td><i class="bi bi-box-arrow-up-right"></i></td>
+              </tr>
+              <tr>
+                <td><i class="bi bi-arrow-left-right"></i> Base64 Encoder</td>
+                <td>Encoded API Header</td>
+                <td>15 mins ago</td>
+                <td><i class="bi bi-box-arrow-up-right"></i></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tiny-details">
+          <div class="status-left">
+            <span><i class="bi bi-circle-fill"></i> API: 24ms</span>
+            <span><i class="bi bi-circle-fill"></i> Auth: Online</span>
+            <span><i class="bi bi-circle-fill"></i> Storage: 84% Free</span>
+          </div>
+          <div class="status-right">
+            <span>Docs</span>
+            <span>Github</span>
+            <span>v2.4.0-stable</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- JSON SECTION (caramel brown palette) -->
+    <section id="json">
+      <div class="main-content-JSON">
+        <nav class="navbar-custom">
+          <div class="left-section">
+            <h2>JSON Formatter</h2>
+            <div class="divider"></div>
+            <span class="version-badge">v2.4.0</span>
+          </div>
+          <div style="display: flex; gap: 12px">
+            <button class="btn-outline" onclick="clearJSON()">
+              <i class="bi bi-trash"></i> Clear
+            </button>
+            <button class="btn-outline" onclick="validateJSON()">
+              <i class="bi bi-check-circle"></i> Validate
+            </button>
+            <button class="btn-primary-custom" onclick="formatJSON()">
+              <i class="bi bi-lightning-fill"></i> Format JSON
+            </button>
+          </div>
+        </nav>
+
+        <div class="main-content">
+          <!-- Left Panel -->
+          <div>
+            <div class="panel-header">
+              <span><i class="bi bi-braces"></i> Raw JSON Input</span>
+              <span style="font-size: 11px">UTF-8</span>
+            </div>
+            <textarea id="json-input"></textarea>
+          </div>
+          <!-- Right Panel -->
+          <div id="output-panel">
+            <div class="panel-header">
+              <span><i class="bi bi-file-code"></i> Formatted Output</span>
+              <button
+                onclick="copyOutput()"
+                style="
+                  background: transparent;
+                  border: none;
+                  color: #a16207;
+                  font-size: 13px;
+                  cursor: pointer;
+                  font-weight: 500;
+                "
+              >
+                <i class="bi bi-copy"></i> Copy
+              </button>
+            </div>
+            <pre id="json-output"></pre>
+            <div id="error-bar">
+              <div class="error-content">
+                <i class="bi bi-exclamation-circle"></i>
+                <div>
+                  <div>Invalid JSON Format</div>
+                  <div id="error-msg"></div>
+                </div>
+              </div>
+              <button id="close-error-btn" onclick="closeError()">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="counter" style="display: none">
+      <div class="counter-container">
+        <!-- Header with actions -->
+        <div class="counter-header">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              flex-wrap: wrap;
+              gap: 16px;
+            "
+          >
+            <div>
+              <h1>Character Counter</h1>
+              <p>
+                Real-time text analysis — characters, words, sentences, reading
+                time & keyword density
+              </p>
+            </div>
+            <button class="counter-btn-outline" id="counter_clearBtn">
+              <i class="bi bi-trash3"></i> Clear text
+            </button>
+          </div>
+        </div>
+
+        <!-- Main two-column layout -->
+        <div class="counter-two-columns">
+          <!-- LEFT: Textarea input -->
+          <div class="counter-text-panel">
+            <div class="counter-panel-header">
+              <span><i class="bi bi-pencil-square"></i> ENTER YOUR TEXT</span>
+              <span style="font-size: 11px"
+                >Real-time analysis as you type</span
+              >
+            </div>
+            <textarea
+              id="counter_textInput"
+              class="counter-textarea"
+              placeholder="Paste or type your content here...&#10;&#10;The counter will instantly update character count, word count, sentences, paragraphs, reading time, and show top 5 keywords."
+            ></textarea>
+          </div>
+
+          <!-- RIGHT: Metrics panel + Keyword density -->
+          <div>
+            <div class="counter-metrics-panel">
+              <div class="counter-metrics-header">
+                <h3><i class="bi bi-bar-chart-steps"></i> Text Statistics</h3>
+              </div>
+              <div class="counter-metrics-grid">
+                <!-- Characters (total) -->
+                <div class="counter-metric-row">
+                  <span class="counter-metric-label"
+                    ><i class="bi bi-type"></i> Characters (total)</span
+                  >
+                  <span class="counter-metric-value" id="counter_totalChars"
+                    >0</span
+                  >
+                </div>
+                <!-- Characters without spaces -->
+                <div class="counter-metric-row">
+                  <span class="counter-metric-label"
+                    ><i class="bi bi-backspace"></i> Characters (no
+                    spaces)</span
+                  >
+                  <span class="counter-metric-value" id="counter_charsNoSpaces"
+                    >0</span
+                  >
+                </div>
+                <!-- Words -->
+                <div class="counter-metric-row">
+                  <span class="counter-metric-label"
+                    ><i class="bi bi-book"></i> Words</span
+                  >
+                  <span class="counter-metric-value" id="counter_words">0</span>
+                </div>
+                <!-- Sentences -->
+                <div class="counter-metric-row">
+                  <span class="counter-metric-label"
+                    ><i class="bi bi-chat-dots"></i> Sentences</span
+                  >
+                  <span class="counter-metric-value" id="counter_sentences"
+                    >0</span
+                  >
+                </div>
+                <!-- Paragraphs -->
+                <div class="counter-metric-row">
+                  <span class="counter-metric-label"
+                    ><i class="bi bi-paragraph"></i> Paragraphs</span
+                  >
+                  <span class="counter-metric-value" id="counter_paragraphs"
+                    >0</span
+                  >
+                </div>
+                <!-- Lines -->
+                <div class="counter-metric-row">
+                  <span class="counter-metric-label"
+                    ><i class="bi bi-text-indent-left"></i> Lines</span
+                  >
+                  <span class="counter-metric-value" id="counter_lines">0</span>
+                </div>
+                <!-- Reading time -->
+                <div class="counter-metric-row">
+                  <span class="counter-metric-label"
+                    ><i class="bi bi-clock"></i> Reading time</span
+                  >
+                  <span
+                    class="counter-metric-value counter-time-value"
+                    id="counter_readingTime"
+                    >0 min read</span
+                  >
+                </div>
+                <!-- Speaking time -->
+                <div class="counter-metric-row">
+                  <span class="counter-metric-label"
+                    ><i class="bi bi-mic"></i> Speaking time</span
+                  >
+                  <span
+                    class="counter-metric-value counter-time-value"
+                    id="counter_speakingTime"
+                    >0 min speak</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Keyword Density Section (Top 5 repeated words) -->
+            <div class="counter-metrics-panel" style="margin-top: 20px">
+              <div class="counter-metrics-header">
+                <h3><i class="bi bi-tag"></i> Keyword Density</h3>
+              </div>
+              <div class="counter-keyword-section">
+                <div class="counter-keyword-header">
+                  <h4>Top 5 most repeated words</h4>
+                  <span style="font-size: 11px; color: #7b6a58">frequency</span>
+                </div>
+                <ul class="counter-keyword-list" id="counter_keywordList">
+                  <li class="counter-no-data">
+                    Type something to see keywords
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Inline status message (no alerts) -->
+            <div id="counter_statusMsg" class="counter-status-message">
+              <i class="bi bi-info-circle-fill"></i>
+              <span id="counter_statusText"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="text" style="display: none">
+      <div class="main-content-text">
+        <!-- Independent Case Converter Module - matches exact design specs -->
+        <div class="text-wrapper">
+          <div style="max-width: 1400px; margin: 0 auto">
+            <!-- Header area -->
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 28px;
+                flex-wrap: wrap;
+                gap: 16px;
+              "
+            >
+              <div>
+                <h1
+                  style="
+                    color: #3e2c23;
+                    font-size: 32px;
+                    font-weight: 700;
+                    margin: 0 0 6px 0;
+                  "
+                >
+                  Text Case Converter
+                </h1>
+                <p style="color: #7b6a58; font-size: 15px; margin: 0">
+                  Transform text between camelCase, PascalCase, snake_case,
+                  kebab-case, CONSTANT_CASE & dot.case
+                </p>
+              </div>
+              <button class="btn-outline-case" id="clearAllBtn">
+                <i class="bi bi-eraser"></i> Clear
+              </button>
+            </div>
+
+            <!-- Two column layout -->
+            <div
+              style="display: grid; grid-template-columns: 1fr 360px; gap: 24px"
+              class="case-converter-main"
+            >
+              <!-- LEFT COLUMN: Input + Buttons + Output -->
+              <div>
+                <!-- Input panel -->
+                <div class="text-panel-case">
+                  <div class="text-panel-header-case">
+                    <span><i class="bi bi-pencil-square"></i> INPUT TEXT</span>
+                    <span style="font-size: 11px"
+                      >Supports words, underscores, hyphens</span
+                    >
+                  </div>
+                  <textarea
+                    id="inputText"
+                    class="case-textarea"
+                    rows="5"
+                    placeholder="Type or paste your text here...&#10;Examples:&#10;hello world&#10;myVariableName&#10;user_profile_data"
+                  ></textarea>
+                </div>
+
+                <!-- Conversion Buttons grid (6 types with examples) -->
+                <div class="conversion-grid-case">
+                  <div class="case-btn" data-case="camel">
+                    <span>🐫 camelCase</span>
+                    <span class="case-example">myVariable</span>
+                  </div>
+                  <div class="case-btn" data-case="pascal">
+                    <span>📘 PascalCase</span>
+                    <span class="case-example">MyVariable</span>
+                  </div>
+                  <div class="case-btn" data-case="snake">
+                    <span>🐍 snake_case</span>
+                    <span class="case-example">my_variable</span>
+                  </div>
+                  <div class="case-btn" data-case="kebab">
+                    <span>🔪 kebab-case</span>
+                    <span class="case-example">my-variable</span>
+                  </div>
+                  <div class="case-btn" data-case="constant">
+                    <span>⚠️ CONSTANT_CASE</span>
+                    <span class="case-example">MY_VARIABLE</span>
+                  </div>
+                  <div class="case-btn" data-case="dot">
+                    <span>🔘 dot.case</span>
+                    <span class="case-example">my.variable</span>
+                  </div>
+                </div>
+
+                <!-- Output Preview Panel -->
+                <div class="text-panel-case">
+                  <div class="text-panel-header-case">
+                    <span
+                      ><i class="bi bi-file-text"></i> CONVERTED OUTPUT</span
+                    >
+                    <button
+                      id="copyOutputBtn"
+                      class="btn-outline-case"
+                      style="padding: 5px 14px"
+                    >
+                      <i class="bi bi-copy"></i> Copy
+                    </button>
+                  </div>
+                  <div id="outputPreview" class="output-preview-case">
+                    Click any conversion button to see result...
+                  </div>
+                </div>
+
+                <!-- Inline status message (no alerts) -->
+                <div id="statusMessage" class="status-message-case">
+                  <i class="bi bi-info-circle-fill"></i>
+                  <span id="statusText"></span>
+                </div>
+              </div>
+
+              <!-- RIGHT COLUMN: Metrics panel -->
+              <div class="right-stats-case">
+                <h4
+                  style="
+                    color: #3e2c23;
+                    font-size: 1rem;
+                    font-weight: 700;
+                    margin: 0 0 16px 0;
+                  "
+                >
+                  <i class="bi bi-bar-chart-steps"></i> Text Metrics
+                </h4>
+                <div class="stats-grid-case">
+                  <div class="metric-box-case">
+                    <span class="metric-label-case">Words</span>
+                    <span class="metric-value-case" id="wordCount">0</span>
+                  </div>
+                  <div class="metric-box-case">
+                    <span class="metric-label-case">Characters</span>
+                    <span class="metric-value-case" id="charCount">0</span>
+                  </div>
+                  <div class="metric-box-case">
+                    <span class="metric-label-case">Lines</span>
+                    <span class="metric-value-case" id="lineCount">0</span>
+                  </div>
+                  <div class="metric-box-case">
+                    <span class="metric-label-case">Spaces</span>
+                    <span class="metric-value-case" id="spaceCount">0</span>
+                  </div>
+                </div>
+                <div
+                  style="
+                    margin-top: 20px;
+                    padding-top: 16px;
+                    border-top: 1px solid #d6c7b8;
+                  "
+                >
+                  <p style="color: #7b6a58; font-size: 12px; margin: 0">
+                    <i class="bi bi-lightbulb"></i> Automatically detects words
+                    separated by spaces, underscores, hyphens, dots, or
+                    camelCase boundaries.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="base64" style="display: none">
+      <div class="base64-wrapper">
+        <div class="base64-container">
+          <!-- Header -->
+          <div class="base64-header">
+            <div>
+              <h1>Base64 Encoder / Decoder</h1>
+              <p>Convert text to Base64 and back — live as you type</p>
+            </div>
+            <div class="base64-actions">
+              <button class="base64-btn-outline" id="base64_clearBtn">
+                <i class="bi bi-eraser"></i> Clear
+              </button>
+              <button class="base64-btn-primary" id="base64_convertBtn">
+                <i class="bi bi-arrow-left-right"></i> Convert
+              </button>
+            </div>
+          </div>
+
+          <!-- Mode Toggle -->
+          <div
+            style="
+              margin-bottom: 20px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              flex-wrap: wrap;
+              gap: 12px;
+            "
+          >
+            <div class="base64-mode-toggle">
+              <button
+                class="base64-mode-btn active"
+                data-mode="encode"
+                id="base64_modeEncode"
+              >
+                <i class="bi bi-lock"></i> Encode
+              </button>
+              <button
+                class="base64-mode-btn"
+                data-mode="decode"
+                id="base64_modeDecode"
+              >
+                <i class="bi bi-unlock"></i> Decode
+              </button>
+            </div>
+            <span style="color: #7b6a58; font-size: 13px">
+              <span id="base64_modeLabel">Plain text → Base64</span>
+            </span>
+          </div>
+
+          <!-- Two panels -->
+          <div class="base64-panels">
+            <!-- LEFT: Input Panel -->
+            <div class="base64-panel">
+              <div class="base64-panel-header">
+                <span>
+                  <i class="bi bi-pencil-square"></i> INPUT
+                  <span class="base64-char-count" id="base64_inputCount"
+                    >0 chars</span
+                  >
+                </span>
+                <span style="font-size: 11px; color: #7b6a58">UTF-8</span>
+              </div>
+              <textarea
+                id="base64_input"
+                class="base64-textarea"
+                placeholder="Type or paste your text here…"
+                spellcheck="false"
+              ></textarea>
+            </div>
+
+            <!-- RIGHT: Output Panel -->
+            <div class="base64-panel">
+              <div class="base64-panel-header">
+                <span>
+                  <i class="bi bi-file-code"></i> OUTPUT
+                  <span class="base64-char-count" id="base64_outputCount"
+                    >0 chars</span
+                  >
+                </span>
+                <button class="base64-copy-btn" id="base64_copyBtn">
+                  <i class="bi bi-copy"></i> Copy
+                </button>
+              </div>
+              <div id="base64_output" class="base64-output-area placeholder">
+                Output will appear here…
+              </div>
+            </div>
+          </div>
+
+          <!-- Inline Status Message -->
+          <div id="base64_status" class="base64-status">
+            <i class="bi bi-info-circle-fill"></i>
+            <span id="base64_statusText"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="color-picker" style="display: none">
+      <div class="color-wrapper">
+        <div class="color-container">
+          <!-- Header -->
+          <div class="color-header">
+            <div>
+              <h1>Color Picker</h1>
+              <p>
+                Pick a color and instantly see HEX, RGB, HSL, and CMYK values
+              </p>
+            </div>
+            <div class="color-actions">
+              <button class="color-btn-outline" id="color_resetBtn">
+                <i class="bi bi-arrow-counterclockwise"></i> Reset
+              </button>
+            </div>
+          </div>
+
+          <!-- Main Grid -->
+          <div class="color-grid">
+            <!-- LEFT: Picker + Preview -->
+            <div class="color-picker-panel">
+              <div>
+                <label><i class="bi bi-palette"></i> COLOR PICKER</label>
+                <div class="color-swatch-wrapper">
+                  <input type="color" id="color_picker" value="#A16207" />
+                  <div class="color-hex-input-group">
+                    <input
+                      type="text"
+                      id="color_hexInput"
+                      value="#A16207"
+                      placeholder="#HEX value"
+                      spellcheck="false"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label><i class="bi bi-eye"></i> PREVIEW</label>
+                <div
+                  class="color-preview-box"
+                  id="color_previewBox"
+                  style="background: #a16207"
+                ></div>
+              </div>
+
+              <!-- Inline status message -->
+              <div id="color_status" class="color-status">
+                <i class="bi bi-info-circle-fill"></i>
+                <span id="color_statusText"></span>
+              </div>
+            </div>
+
+            <!-- RIGHT: Format cards -->
+            <div class="color-formats-panel">
+              <!-- HEX -->
+              <div class="color-format-card">
+                <div class="color-format-info">
+                  <span class="color-format-label">HEX</span>
+                  <span class="color-format-value" id="color_hexValue"
+                    >#A16207</span
+                  >
+                </div>
+                <button class="color-copy-btn" data-target="color_hexValue">
+                  <i class="bi bi-copy"></i> Copy
+                </button>
+              </div>
+
+              <!-- RGB -->
+              <div class="color-format-card">
+                <div class="color-format-info">
+                  <span class="color-format-label">RGB</span>
+                  <span class="color-format-value" id="color_rgbValue"
+                    >rgb(161, 98, 7)</span
+                  >
+                </div>
+                <button class="color-copy-btn" data-target="color_rgbValue">
+                  <i class="bi bi-copy"></i> Copy
+                </button>
+              </div>
+
+              <!-- HSL -->
+              <div class="color-format-card">
+                <div class="color-format-info">
+                  <span class="color-format-label">HSL</span>
+                  <span class="color-format-value" id="color_hslValue"
+                    >hsl(35, 92%, 33%)</span
+                  >
+                </div>
+                <button class="color-copy-btn" data-target="color_hslValue">
+                  <i class="bi bi-copy"></i> Copy
+                </button>
+              </div>
+
+              <!-- CMYK -->
+              <div class="color-format-card">
+                <div class="color-format-info">
+                  <span class="color-format-label">CMYK</span>
+                  <span class="color-format-value" id="color_cmykValue"
+                    >cmyk(0%, 39%, 96%, 37%)</span
+                  >
+                </div>
+                <button class="color-copy-btn" data-target="color_cmykValue">
+                  <i class="bi bi-copy"></i> Copy
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== REGEX TOOL HTML ========== -->
+    <section id="regex" style="display: none">
+      <div class="regex-wrapper">
+        <!-- LEFT COLUMN: illustration + copy -->
+        <aside class="regex-left">
+          <!-- SVG illustration (same as before, but cleaned) -->
+          <svg
+            class="regex-illustration"
+            viewBox="0 0 320 280"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <rect
+              x="60"
+              y="40"
+              width="200"
+              height="140"
+              rx="12"
+              fill="#fff"
+              stroke="#B88A5E"
+              stroke-width="2.5"
+            />
+            <rect
+              x="70"
+              y="50"
+              width="180"
+              height="115"
+              rx="7"
+              fill="#F8F2EC"
+            />
+            <rect
+              x="82"
+              y="65"
+              width="60"
+              height="7"
+              rx="3"
+              fill="#A16207"
+              opacity=".7"
+            />
+            <rect
+              x="82"
+              y="80"
+              width="110"
+              height="5"
+              rx="2.5"
+              fill="#5C4A42"
+              opacity=".35"
+            />
+            <rect
+              x="82"
+              y="92"
+              width="90"
+              height="5"
+              rx="2.5"
+              fill="#5C4A42"
+              opacity=".25"
+            />
+            <text
+              x="82"
+              y="120"
+              fill="#A16207"
+              font-size="11"
+              font-family="monospace"
+              font-weight="700"
+            >
+              \d+
+            </text>
+            <text
+              x="118"
+              y="120"
+              fill="#B88A5E"
+              font-size="11"
+              font-family="monospace"
+            >
+              [A-Z]+
+            </text>
+            <rect
+              x="82"
+              y="128"
+              width="130"
+              height="5"
+              rx="2.5"
+              fill="#D6C5B8"
+              opacity=".5"
+            />
+            <rect
+              x="82"
+              y="140"
+              width="80"
+              height="5"
+              rx="2.5"
+              fill="#D6C5B8"
+              opacity=".35"
+            />
+            <rect
+              x="145"
+              y="180"
+              width="30"
+              height="18"
+              rx="3"
+              fill="#D6C5B8"
+            />
+            <rect
+              x="125"
+              y="195"
+              width="70"
+              height="8"
+              rx="4"
+              fill="#B88A5E"
+              opacity=".6"
+            />
+            <rect
+              x="55"
+              y="210"
+              width="210"
+              height="12"
+              rx="6"
+              fill="#EDE4DA"
+              stroke="#D6C5B8"
+              stroke-width="1.5"
+            />
+            <rect
+              x="22"
+              y="80"
+              width="32"
+              height="20"
+              rx="6"
+              fill="#A16207"
+              opacity=".12"
+            />
+            <text
+              x="27"
+              y="95"
+              fill="#A16207"
+              font-size="10"
+              font-family="monospace"
+              font-weight="700"
+            >
+              .*
+            </text>
+            <rect
+              x="270"
+              y="100"
+              width="36"
+              height="20"
+              rx="6"
+              fill="#B88A5E"
+              opacity=".15"
+            />
+            <text
+              x="275"
+              y="115"
+              fill="#814E08"
+              font-size="10"
+              font-family="monospace"
+            >
+              ^$
+            </text>
+            <rect
+              x="14"
+              y="140"
+              width="36"
+              height="20"
+              rx="6"
+              fill="#5C4A42"
+              opacity=".1"
+            />
+            <text
+              x="19"
+              y="155"
+              fill="#5C4A42"
+              font-size="10"
+              font-family="monospace"
+            >
+              \w+
+            </text>
+            <circle cx="88" cy="57" r="3" fill="#D6C5B8" />
+            <circle cx="100" cy="57" r="3" fill="#D6C5B8" />
+            <circle cx="112" cy="57" r="3" fill="#B88A5E" opacity=".5" />
+          </svg>
+
+          <div class="regex-hero">
+            <h1>Regex Tool</h1>
+            <p>Test, validate and debug your regular expressions instantly.</p>
+          </div>
+
+          <ul class="regex-features">
+            <li>
+              <span class="regex-feature-icon">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+              </span>
+              Live Regex Testing
+            </li>
+            <li>
+              <span class="regex-feature-icon">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+              </span>
+              Fast Pattern Matching
+            </li>
+            <li>
+              <span class="regex-feature-icon">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                </svg>
+              </span>
+              Beginner Friendly
+            </li>
+          </ul>
+        </aside>
+
+        <!-- RIGHT COLUMN: card with regex controls -->
+        <section class="regex-right">
+          <div class="regex-card">
+            <!-- header -->
+            <div class="regex-card-header">
+              <h2>Regular Expression Tester</h2>
+              <p>Enter a regex pattern and test it against any text.</p>
+            </div>
+
+            <hr class="regex-divider" />
+
+            <!-- pattern -->
+            <div class="regex-field">
+              <label for="regex-pattern">Regex Pattern</label>
+              <div class="regex-pattern-wrap">
+                <span class="regex-slash">/</span>
+                <input
+                  id="regex-pattern"
+                  type="text"
+                  placeholder="Example: \d+  |  [A-Z]+  |  ^hello$"
+                  autocomplete="off"
+                  spellcheck="false"
+                />
+                <span class="regex-slash">/</span>
+              </div>
+            </div>
+
+            <!-- flags -->
+            <div class="regex-field">
+              <label>Regex Flags</label>
+              <div class="regex-flags" role="group" aria-label="Regex flags">
+                <button
+                  class="regex-flag-btn active"
+                  data-flag="g"
+                  type="button"
+                >
+                  <span class="regex-flag-circle">g</span>
+                  <span class="regex-flag-label">Global</span>
+                </button>
+                <button class="regex-flag-btn" data-flag="i" type="button">
+                  <span class="regex-flag-circle">i</span>
+                  <span class="regex-flag-label">Ignore Case</span>
+                </button>
+                <button class="regex-flag-btn" data-flag="m" type="button">
+                  <span class="regex-flag-circle">m</span>
+                  <span class="regex-flag-label">Multiline</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- test string -->
+            <div class="regex-field">
+              <label for="regex-teststring">Test String</label>
+              <textarea
+                id="regex-teststring"
+                class="regex-textarea"
+                placeholder="Paste or type your text here…"
+                spellcheck="false"
+              ></textarea>
+            </div>
+
+            <!-- action buttons -->
+            <div class="regex-btn-row">
+              <button
+                class="regex-btn-primary"
+                id="regex-match-btn"
+                type="button"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                Match
+              </button>
+              <button
+                class="regex-btn-secondary"
+                id="regex-clear-btn"
+                type="button"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+                Clear
+              </button>
+            </div>
+
+            <!-- results panel -->
+            <div class="regex-results" id="regex-results" aria-live="polite">
+              <!-- error box -->
+              <div class="regex-error-box" id="regex-error-box">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                <span id="regex-error-text"></span>
+              </div>
+
+              <!-- results box -->
+              <div class="regex-results-box" id="regex-results-box">
+                <div class="regex-stat-row">
+                  <span class="regex-stat-label">Total Matches:</span>
+                  <span class="regex-stat-badge" id="regex-match-count">0</span>
+                </div>
+                <hr class="regex-divider" />
+                <p class="regex-matches-title">Matches</p>
+                <ul class="regex-match-list" id="regex-match-list">
+                  <li class="regex-no-match">• No matches found.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <script>
+      // ========== SIDEBAR NAVIGATION ==========
+      function showSection(sectionId) {
+        document.getElementById("dashboard").style.display = "none";
+        document.getElementById("json").style.display = "none";
+        document.getElementById("text").style.display = "none";
+        document.getElementById("counter").style.display = "none";
+        document.getElementById("base64").style.display = "none";
+        document.getElementById("color-picker").style.display = "none";
+        document.getElementById("regex").style.display = "none";
+
+        if (sectionId === "dashboard")
+          document.getElementById("dashboard").style.display = "block";
+        if (sectionId === "json")
+          document.getElementById("json").style.display = "block";
+        if (sectionId === "counter")
+          document.getElementById("counter").style.display = "block";
+        if (sectionId === "text")
+          document.getElementById("text").style.display = "block";
+        if (sectionId === "base64")
+          document.getElementById("base64").style.display = "block";
+        if (sectionId === "color-picker")
+          document.getElementById("color-picker").style.display = "block";
+        if (sectionId === "regex")
+          document.getElementById("regex").style.display = "block";
+      }
+
+      const links = document.querySelectorAll(".sidebar-link");
+      links.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const href = link.getAttribute("href");
+          let section = "dashboard";
+          if (href === "#dashboard") section = "dashboard";
+          else if (href === "#json") section = "json";
+          else if (href === "#counter") section = "counter";
+          else if (href === "#text") section = "text";
+          else if (href === "#base64") section = "base64";
+          else if (href === "#color-picker") section = "color-picker";
+          else if (href === "#regex") section = "regex";
+
+          showSection(section);
+
+          links.forEach((l) => l.classList.remove("active"));
+          link.classList.add("active");
+        });
+      });
+
+      // activate dashboard by default
+      document
+        .querySelector('.sidebar-link[href="#dashboard"]')
+        .classList.add("active");
+
+      // open json tool from dashboard card
+      const openJsonBtns = document.querySelectorAll(".open-json-tool");
+      openJsonBtns.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          showSection("json");
+          document
+            .querySelector('.sidebar-link[href="#json"]')
+            .classList.add("active");
+          document
+            .querySelector('.sidebar-link[href="#dashboard"]')
+            .classList.remove("active");
+        });
+      });
+
+      // === JSON FUNCTIONS (caramel) ===
+      function formatJSON() {
+        const input = document.getElementById("json-input").value;
+        const outputPre = document.getElementById("json-output");
+        const errorBar = document.getElementById("error-bar");
+        const errorMsgSpan = document.getElementById("error-msg");
+        const outputPanel = document.getElementById("output-panel");
+
+        if (!input.trim()) {
+          outputPre.textContent = "";
+          errorBar.style.display = "flex";
+          errorMsgSpan.textContent = "Empty input — provide valid JSON";
+          return;
+        }
+        try {
+          const parsed = JSON.parse(input);
+          const formatted = JSON.stringify(parsed, null, 2);
+          outputPre.textContent = formatted;
+          outputPanel.style.border = "1px solid #D6C7B8";
+          errorBar.style.display = "none";
+
+
+
+    addActivity(
+        "JSON Formatter",
+        "Formatted JSON"
+    );
+
+
+        } catch (e) {
+          outputPre.textContent = input;
+          outputPanel.style.border = "1px solid #FECACA";
+          errorMsgSpan.textContent = e.message;
+          errorBar.style.display = "flex";
+        }
+        
+      }
+
+     function validateJSON() {
+    const input = document.getElementById("json-input").value;
+
+    if (!input.trim()) {
+        alert("Please enter JSON to validate.");
+        return;
+    }
+
+    try {
+        JSON.parse(input);
+
+        alert("✅ Valid JSON! Structure is correct.");
+
+        addActivity(
+            "JSON Formatter",
+            "Validated JSON"
+        );
+
+    } catch (e) {
+
+        alert("❌ Invalid JSON: " + e.message);
+
+        addActivity(
+            "JSON Formatter",
+            "Invalid JSON"
+        );
+
+    }
+}
+
+      function clearJSON() {
+        document.getElementById("json-input").value = "";
+        document.getElementById("json-output").textContent = "";
+        const errorBar = document.getElementById("error-bar");
+        const outputPanel = document.getElementById("output-panel");
+        errorBar.style.display = "none";
+        outputPanel.style.border = "1px solid #D6C7B8";
+
+          addActivity(
+        "JSON Formatter",
+        "Cleared JSON"
+    );
+      }
+
+      function copyOutput() {
+        const text = document.getElementById("json-output").textContent;
+        if (!text) {
+          alert("Nothing to copy");
+          return;
+        }
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            const copyBtn = document.querySelector(
+              "#output-panel .panel-header button",
+            );
+            addActivity(
+    "JSON Formatter",
+    "Copied Output"
+);
+            if (copyBtn) {
+              const originalText = copyBtn.innerHTML;
+              copyBtn.innerHTML = '<i class="bi bi-check-lg"></i> Copied!';
+              setTimeout(() => {
+                copyBtn.innerHTML = originalText;
+              }, 1500);
+            } else {
+              alert("Copied to clipboard");
+            }
+          })
+          .catch(() => alert("Unable to copy"));
+      }
+
+      function closeError() {
+        document.getElementById("error-bar").style.display = "none";
+        document.getElementById("output-panel").style.border =
+          "1px solid #D6C7B8";
+      }
+
+
+// Clear History
+const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+
+if (clearHistoryBtn) {
+    clearHistoryBtn.addEventListener("click", function (e) {
+
+        e.preventDefault();
+
+        if (confirm("Are you sure you want to clear all activity history?")) {
+
+            localStorage.removeItem("activityHistory");
+
+            loadActivity();
+        }
+
+    });
+}
+
+      window.addEventListener("load", () => {
+        document.getElementById("output-panel").style.border =
+          "1px solid #D6C7B8";
+        const textarea = document.getElementById("json-input");
+        if (textarea) {
+          textarea.placeholder =
+            '{\n  "name": "DevToolkit",\n  "theme": "Caramel Brown",\n  "version": "2.4.0"\n}';
+        }
+      });
+
+      (function () {
+        // DOM elements
+        const inputEl = document.getElementById("inputText");
+        const outputPreview = document.getElementById("outputPreview");
+        const wordSpan = document.getElementById("wordCount");
+        const charSpan = document.getElementById("charCount");
+        const lineSpan = document.getElementById("lineCount");
+        const spaceSpan = document.getElementById("spaceCount");
+        const statusDiv = document.getElementById("statusMessage");
+        const statusTextSpan = document.getElementById("statusText");
+        const clearBtn = document.getElementById("clearAllBtn");
+        const copyBtn = document.getElementById("copyOutputBtn");
+
+        // Store last converted text
+        let lastConverted = "";
+
+        // Helper: show status message (error or success) without alerts
+        function case_showStatus(message, isError = false) {
+          statusTextSpan.innerText = message;
+          statusDiv.style.display = "flex";
+          if (isError) {
+            statusDiv.classList.remove("success");
+            statusDiv.style.borderLeftColor = "#DC2626";
+            statusDiv.style.background = "#FEF2F2";
+            statusDiv.style.color = "#B91C1C";
+          } else {
+            statusDiv.classList.add("success");
+            statusDiv.style.borderLeftColor = "#10B981";
+            statusDiv.style.background = "#ECFDF5";
+            statusDiv.style.color = "#065F46";
+          }
+          // Auto-hide after 3 seconds
+          setTimeout(() => {
+            if (statusDiv.style.display === "flex") {
+              statusDiv.style.display = "none";
+            }
+          }, 2800);
+        }
+
+        // Update metrics (words, chars, lines, spaces)
+        function case_updateMetrics() {
+          const text = inputEl.value;
+          const chars = text.length;
+          const words =
+            text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+          const lines = text === "" ? 0 : text.split(/\r?\n/).length;
+          const spaces = (text.match(/ /g) || []).length;
+          charSpan.innerText = chars;
+          wordSpan.innerText = words;
+          lineSpan.innerText = lines;
+          spaceSpan.innerText = spaces;
+        }
+
+        // Tokenizer: splits any identifier into words (handles spaces, underscores, hyphens, dots, camelCase)
+        function case_tokenizeWords(str) {
+          if (!str.trim()) return [];
+          // Replace underscores, hyphens, dots with space
+          let step = str.replace(/[_.\-]/g, " ");
+          // Handle camelCase / PascalCase: insert space before capital letters (but not if entire word is uppercase)
+          step = step.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
+          step = step.replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2");
+          // Split by whitespace and filter empty strings
+          let words = step.split(/\s+/);
+          words = words.filter((w) => w.length > 0);
+          return words;
+        }
+
+        // Core conversion engine
+        function case_convertText(caseType) {
+          const rawInput = inputEl.value;
+          if (!rawInput.trim()) {
+            case_showStatus("Please enter some text to convert", true);
+            outputPreview.innerText = "— No input provided —";
+            lastConverted = "";
+            return "";
+          }
+
+          // Tokenize input into words
+          let wordsArray = case_tokenizeWords(rawInput);
+          if (wordsArray.length === 0) {
+            outputPreview.innerText = rawInput;
+            lastConverted = rawInput;
+            return rawInput;
+          }
+
+          let result = "";
+          switch (caseType) {
+            case "camel":
+              // camelCase: first word lowercase, then capitalize each subsequent word
+              result = wordsArray
+                .map((word, idx) => {
+                  let lowerWord = word.toLowerCase();
+                  if (idx === 0) return lowerWord;
+                  return lowerWord.charAt(0).toUpperCase() + lowerWord.slice(1);
+                })
+                .join("");
+              break;
+
+            case "pascal":
+              // PascalCase: capitalize first letter of every word
+              result = wordsArray
+                .map((word) => {
+                  let lower = word.toLowerCase();
+                  return lower.charAt(0).toUpperCase() + lower.slice(1);
+                })
+                .join("");
+              break;
+
+            case "snake":
+              // snake_case: all lowercase, words separated by underscore
+              result = wordsArray.map((word) => word.toLowerCase()).join("_");
+              break;
+
+            case "kebab":
+              // kebab-case: all lowercase, words separated by hyphen
+              result = wordsArray.map((word) => word.toLowerCase()).join("-");
+              break;
+
+            case "constant":
+              // CONSTANT_CASE: all uppercase, words separated by underscore
+              result = wordsArray.map((word) => word.toUpperCase()).join("_");
+              break;
+
+            case "dot":
+              // dot.case: all lowercase, words separated by dot
+              result = wordsArray.map((word) => word.toLowerCase()).join(".");
+              break;
+
+            default:
+              result = rawInput;
+          }
+
+          outputPreview.innerText = result;
+          lastConverted = result;
+          case_showStatus(
+            `✓ Converted to ${caseType.toUpperCase()} successfully`,
+            false,
+          );
+          return result;
+        }
+
+        // Event listeners for all conversion buttons
+        const caseButtons = document.querySelectorAll(".case-btn");
+        caseButtons.forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            const caseType = btn.getAttribute("data-case");
+            if (caseType) {
+              case_convertText(caseType);
+            }
+          });
+        });
+
+        // Clear button: reset input, output, metrics, and status
+        function case_clearAll() {
+          inputEl.value = "";
+          outputPreview.innerText =
+            "Click any conversion button to see result...";
+          lastConverted = "";
+          case_updateMetrics();
+          case_showStatus("Cleared all fields", false);
+          addActivity(
+    "Text Case Converter",
+    "Cleared Text"
+);
+        }
+
+        // Copy output to clipboard
+        function case_copyOutput() {
+          const textToCopy = outputPreview.innerText;
+          if (
+            !textToCopy ||
+            textToCopy === "Click any conversion button to see result..." ||
+            textToCopy === "— No input provided —"
+          ) {
+            case_showStatus(
+              "Nothing to copy — please convert some text first",
+              true,
+            );
+            return;
+          }
+          navigator.clipboard
+            .writeText(textToCopy)
+            .then(() => {
+              case_showStatus("✓ Copied to clipboard!", false);
+              addActivity(
+    "Text Case Converter",
+    "Copied Output"
+);
+            })
+            .catch(() => {
+              case_showStatus("Failed to copy. Manual copy needed.", true);
+            });
+        }
+
+        // Update metrics on input change
+        inputEl.addEventListener("input", () => {
+          case_updateMetrics();
+          // Optionally, preserve last converted? We just reset output preview to indicate stale?
+          // But better to keep but show hint. According to spec, no auto-conversion, just metrics.
+          if (inputEl.value.trim() === "") {
+            outputPreview.innerText =
+              "Click any conversion button to see result...";
+            lastConverted = "";
+          } else if (lastConverted) {
+            // user edited after conversion, we don't auto-update but keep last? we show neutral state.
+            outputPreview.innerText = lastConverted + " (input changed)";
+          }
+        });
+
+        clearBtn.addEventListener("click", case_clearAll);
+        copyBtn.addEventListener("click", case_copyOutput);
+
+        // Initialize metrics
+        case_updateMetrics();
+
+        // Optional: keyboard shortcut: no alerts, but just robust init
+        console.log(
+          "Text Case Converter ready — all functions prefixed with case_",
+        );
+      })();
+
+      (function () {
+        // ========== ALL FUNCTIONS AND VARIABLES PREFIXED WITH "counter_" ==========
+
+        // DOM elements
+        const counter_textInput = document.getElementById("counter_textInput");
+        const counter_totalCharsSpan =
+          document.getElementById("counter_totalChars");
+        const counter_charsNoSpacesSpan = document.getElementById(
+          "counter_charsNoSpaces",
+        );
+        const counter_wordsSpan = document.getElementById("counter_words");
+        const counter_sentencesSpan =
+          document.getElementById("counter_sentences");
+        const counter_paragraphsSpan =
+          document.getElementById("counter_paragraphs");
+        const counter_linesSpan = document.getElementById("counter_lines");
+        const counter_readingTimeSpan = document.getElementById(
+          "counter_readingTime",
+        );
+        const counter_speakingTimeSpan = document.getElementById(
+          "counter_speakingTime",
+        );
+        const counter_keywordList = document.getElementById(
+          "counter_keywordList",
+        );
+        const counter_clearBtn = document.getElementById("counter_clearBtn");
+        const counter_statusMsg = document.getElementById("counter_statusMsg");
+        const counter_statusText =
+          document.getElementById("counter_statusText");
+
+        // Helper: show inline status message (no alerts)
+        function counter_showStatus(message, isError = false) {
+          counter_statusText.innerText = message;
+          counter_statusMsg.style.display = "flex";
+          if (isError) {
+            counter_statusMsg.classList.add("error");
+          } else {
+            counter_statusMsg.classList.remove("error");
+          }
+          setTimeout(() => {
+            counter_statusMsg.style.display = "none";
+          }, 2500);
+        }
+
+        // Core analysis function - updates all metrics in real time
+        function counter_analyzeText() {
+          const text = counter_textInput.value;
+
+          // 1. Characters (total)
+          const totalChars = text.length;
+          counter_totalCharsSpan.innerText = totalChars;
+
+          // 2. Characters without spaces
+          const charsNoSpaces = text.replace(/\s/g, "").length;
+          counter_charsNoSpacesSpan.innerText = charsNoSpaces;
+
+          // 3. Words (split by whitespace, filter empty)
+          const wordsArray = text.trim() === "" ? [] : text.trim().split(/\s+/);
+          const wordCount = wordsArray.length;
+          counter_wordsSpan.innerText = wordCount;
+
+          // 4. Sentences (split by ., !, ? followed by space or end)
+          let sentenceCount = 0;
+          if (text.trim()) {
+            const sentences = text.match(/[^.!?]+[.!?]+/g);
+            sentenceCount = sentences ? sentences.length : 0;
+            // edge case: if no punctuation but has words, count as 1 sentence
+            if (sentenceCount === 0 && wordCount > 0) sentenceCount = 1;
+          }
+          counter_sentencesSpan.innerText = sentenceCount;
+
+          // 5. Paragraphs (split by double newline or more)
+          let paragraphCount = 0;
+          if (text.trim()) {
+            const paragraphs = text
+              .split(/\n\s*\n/)
+              .filter((p) => p.trim().length > 0);
+            paragraphCount = paragraphs.length;
+            if (paragraphCount === 0 && text.trim().length > 0)
+              paragraphCount = 1;
+          }
+          counter_paragraphsSpan.innerText = paragraphCount;
+
+          // 6. Lines (split by newline)
+          const lines = text === "" ? 0 : text.split(/\r?\n/).length;
+          counter_linesSpan.innerText = lines;
+
+          // 7. Reading time (average 200-250 words per minute, use 225 wpm)
+          let readingMinutes = 0;
+          if (wordCount > 0) {
+            readingMinutes = Math.max(1, Math.ceil(wordCount / 225));
+          }
+          counter_readingTimeSpan.innerText =
+            readingMinutes === 0 ? "0 min read" : `${readingMinutes} min read`;
+
+          // 8. Speaking time (average 130-150 words per minute, use 140 wpm)
+          let speakingMinutes = 0;
+          if (wordCount > 0) {
+            speakingMinutes = Math.max(1, Math.ceil(wordCount / 140));
+          }
+          counter_speakingTimeSpan.innerText =
+            speakingMinutes === 0
+              ? "0 min speak"
+              : `${speakingMinutes} min speak`;
+
+          // 9. Keyword density - top 5 most frequent words (exclude common stop words)
+          counter_updateKeywordDensity(wordsArray);
+        }
+
+        // Stop words to filter out (common articles, prepositions, etc.)
+        const counter_stopWords = new Set([
+          "a",
+          "an",
+          "and",
+          "the",
+          "of",
+          "to",
+          "in",
+          "for",
+          "on",
+          "with",
+          "by",
+          "at",
+          "from",
+          "is",
+          "are",
+          "was",
+          "were",
+          "be",
+          "been",
+          "being",
+          "have",
+          "has",
+          "had",
+          "having",
+          "do",
+          "does",
+          "did",
+          "doing",
+          "but",
+          "or",
+          "so",
+          "for",
+          "nor",
+          "yet",
+          "as",
+          "into",
+          "like",
+          "through",
+          "after",
+          "over",
+          "between",
+          "out",
+          "against",
+          "during",
+          "without",
+          "before",
+          "above",
+          "below",
+          "between",
+          "under",
+          "i",
+          "you",
+          "he",
+          "she",
+          "it",
+          "we",
+          "they",
+          "me",
+          "him",
+          "her",
+          "us",
+          "them",
+          "my",
+          "your",
+          "his",
+          "her",
+          "its",
+          "our",
+          "their",
+          "this",
+          "that",
+          "these",
+          "those",
+          "some",
+          "any",
+          "no",
+          "very",
+          "just",
+          "but",
+          "not",
+        ]);
+
+        function counter_updateKeywordDensity(wordsArray) {
+          if (!wordsArray || wordsArray.length === 0) {
+            counter_keywordList.innerHTML =
+              '<li class="counter-no-data">Type something to see keywords</li>';
+            return;
+          }
+
+          // Clean words: lowercase, remove punctuation, filter stop words and short words (<3 chars optional but keep meaningful)
+          const wordFreq = new Map();
+
+          for (let word of wordsArray) {
+            // remove punctuation from start/end and convert to lowercase
+            let cleanWord = word.toLowerCase().replace(/^[^\w]+|[^\w]+$/g, "");
+            // remove any remaining internal punctuation? keep letters/numbers
+            cleanWord = cleanWord.replace(/[^a-z0-9]/g, "");
+            if (cleanWord.length === 0) continue;
+            // skip stop words and single-character words (unless it's a number)
+            if (counter_stopWords.has(cleanWord)) continue;
+            if (cleanWord.length < 2 && isNaN(parseInt(cleanWord))) continue;
+
+            wordFreq.set(cleanWord, (wordFreq.get(cleanWord) || 0) + 1);
+          }
+
+          if (wordFreq.size === 0) {
+            counter_keywordList.innerHTML =
+              '<li class="counter-no-data">No significant keywords found</li>';
+            return;
+          }
+
+          // Convert to array and sort by frequency (desc), then alphabetically
+          const sortedWords = Array.from(wordFreq.entries())
+            .sort((a, b) => {
+              if (a[1] !== b[1]) return b[1] - a[1];
+              return a[0].localeCompare(b[0]);
+            })
+            .slice(0, 5); // top 5
+
+          // Render keyword list
+          if (sortedWords.length === 0) {
+            counter_keywordList.innerHTML =
+              '<li class="counter-no-data">No keywords detected</li>';
+            return;
+          }
+
+          counter_keywordList.innerHTML = "";
+          for (const [keyword, count] of sortedWords) {
+            const li = document.createElement("li");
+            li.className = "counter-keyword-item";
+            li.innerHTML = `
+            <span class="counter-keyword-word">${counter_escapeHtml(keyword)}</span>
+            <span class="counter-keyword-count">${count} time${count !== 1 ? "s" : ""}</span>
+          `;
+            counter_keywordList.appendChild(li);
+          }
+        }
+
+        // Simple XSS prevention
+        function counter_escapeHtml(str) {
+          return str.replace(/[&<>]/g, function (m) {
+            if (m === "&") return "&amp;";
+            if (m === "<") return "&lt;";
+            if (m === ">") return "&gt;";
+            return m;
+          });
+        }
+
+        // Clear everything: reset textarea, all metrics, keyword list
+        function counter_clearAll() {
+          counter_textInput.value = "";
+          // Reset all metric displays
+          counter_totalCharsSpan.innerText = "0";
+          counter_charsNoSpacesSpan.innerText = "0";
+          counter_wordsSpan.innerText = "0";
+          counter_sentencesSpan.innerText = "0";
+          counter_paragraphsSpan.innerText = "0";
+          counter_linesSpan.innerText = "0";
+          counter_readingTimeSpan.innerText = "0 min read";
+          counter_speakingTimeSpan.innerText = "0 min speak";
+          counter_keywordList.innerHTML =
+            '<li class="counter-no-data">Type something to see keywords</li>';
+          counter_showStatus("All text cleared", false);
+          addActivity(
+    "Character Counter",
+    "Cleared Text"
+);
+          // trigger analytics again to be safe
+          counter_analyzeText();
+        }
+
+        // Debounce for performance (real-time but smooth)
+        let counter_debounceTimer;
+        function counter_handleInput() {
+          clearTimeout(counter_debounceTimer);
+          counter_debounceTimer = setTimeout(() => {
+            counter_analyzeText();
+          }, 10);
+        }
+
+        // Event listeners
+        if (counter_textInput) {
+          counter_textInput.addEventListener("input", counter_handleInput);
+        }
+
+        if (counter_clearBtn) {
+          counter_clearBtn.addEventListener("click", counter_clearAll);
+        }
+
+        // Initialize on load
+        counter_analyzeText();
+
+        // Expose any needed functions globally with prefix (but internal scoping keeps safe)
+        window.counter_clearAll = counter_clearAll;
+      })();
+
+      (function () {
+        // ========== ALL FUNCTIONS AND VARIABLES PREFIXED WITH "base64_" ==========
+
+        // DOM refs
+        const base64_input = document.getElementById("base64_input");
+        const base64_output = document.getElementById("base64_output");
+        const base64_inputCount = document.getElementById("base64_inputCount");
+        const base64_outputCount =
+          document.getElementById("base64_outputCount");
+        const base64_status = document.getElementById("base64_status");
+        const base64_statusText = document.getElementById("base64_statusText");
+        const base64_modeEncode = document.getElementById("base64_modeEncode");
+        const base64_modeDecode = document.getElementById("base64_modeDecode");
+        const base64_modeLabel = document.getElementById("base64_modeLabel");
+        const base64_clearBtn = document.getElementById("base64_clearBtn");
+        const base64_convertBtn = document.getElementById("base64_convertBtn");
+        const base64_copyBtn = document.getElementById("base64_copyBtn");
+
+        // State
+        let base64_currentMode = "encode"; // 'encode' or 'decode'
+        let base64_lastOutput = "";
+
+        // Helper: show inline status (no alerts)
+        function base64_showStatus(message, type = "success") {
+          base64_statusText.innerText = message;
+          base64_status.className = "base64-status " + type;
+          base64_status.style.display = "flex";
+          // Auto-hide after 3 seconds
+          clearTimeout(base64_status._hideTimer);
+          base64_status._hideTimer = setTimeout(() => {
+            base64_status.style.display = "none";
+          }, 3000);
+        }
+
+        // Helper: update character counts
+        function base64_updateCounts(inputText, outputText) {
+          base64_inputCount.innerText = inputText.length + " chars";
+          base64_outputCount.innerText = outputText.length + " chars";
+        }
+
+        // Core conversion function
+       function base64_convert(logActivity = true) {
+          const inputText = base64_input.value;
+          let outputText = "";
+          let isError = false;
+
+          if (inputText.trim() === "") {
+            base64_output.innerText = "— Empty input —";
+            base64_output.className = "base64-output-area placeholder";
+            base64_updateCounts(inputText, "");
+            base64_lastOutput = "";
+            base64_status.style.display = "none";
+            return;
+          }
+
+          try {
+            if (base64_currentMode === "encode") {
+              // Encode: plain text → Base64
+              // btoa() expects Latin-1; handle Unicode via encodeURIComponent
+              try {
+                // UTF-8 safe encoding
+                const utf8Bytes = new TextEncoder().encode(inputText);
+                const binaryString = String.fromCharCode(...utf8Bytes);
+                outputText = btoa(binaryString);
+              } catch (e) {
+                // fallback for older browsers
+                outputText = btoa(unescape(encodeURIComponent(inputText)));
+              }
+              base64_output.className = "base64-output-area";
+              base64_showStatus("✓ Encoded successfully", "success");
+            } else {
+              // Decode: Base64 → plain text
+              // Try to decode, catch invalid Base64
+              let decodedBinary;
+              try {
+                decodedBinary = atob(inputText);
+              } catch (e) {
+                throw new Error("Invalid Base64 input — check your string");
+              }
+              // Convert binary string back to UTF-8
+              try {
+                const bytes = new Uint8Array(decodedBinary.length);
+                for (let i = 0; i < decodedBinary.length; i++) {
+                  bytes[i] = decodedBinary.charCodeAt(i);
+                }
+                outputText = new TextDecoder("utf-8").decode(bytes);
+              } catch (e) {
+                // fallback
+                outputText = decodeURIComponent(escape(decodedBinary));
+              }
+              base64_output.className = "base64-output-area";
+              base64_showStatus("✓ Decoded successfully", "success");
+            }
+            isError = false;
+          } catch (err) {
+            outputText = "⚠️ " + err.message;
+            base64_output.className = "base64-output-area";
+            isError = true;
+            base64_showStatus(err.message, "error");
+          }
+
+          base64_output.innerText = outputText;
+          base64_lastOutput = outputText;
+          base64_updateCounts(inputText, outputText);
+         if (!isError && logActivity) {
+    addActivity(
+        "Base64 Converter",
+        base64_currentMode === "encode"
+            ? "Encoded Text"
+            : "Decoded Text"
+    );
+}
+        }
+
+        // Toggle mode
+        function base64_setMode(mode) {
+          base64_currentMode = mode;
+          if (mode === "encode") {
+            base64_modeEncode.classList.add("active");
+            base64_modeDecode.classList.remove("active");
+            base64_modeLabel.innerText = "Plain text → Base64";
+            base64_input.placeholder = "Type or paste plain text to encode…";
+          } else {
+            base64_modeDecode.classList.add("active");
+            base64_modeEncode.classList.remove("active");
+            base64_modeLabel.innerText = "Base64 → Plain text";
+            base64_input.placeholder = "Paste Base64 string to decode…";
+          }
+         // Clear status when mode changes
+          base64_status.style.display = "none";
+          // Re-run conversion with current input (silent — not user-triggered)
+          base64_convert(false);
+        }
+
+        // Clear everything
+        function base64_clearAll() {
+          base64_input.value = "";
+          base64_output.innerText = "— Empty input —";
+          base64_output.className = "base64-output-area placeholder";
+          base64_lastOutput = "";
+          base64_updateCounts("", "");
+          base64_status.style.display = "none";
+          base64_showStatus("Cleared all fields", "success");
+        }
+
+        // Copy output to clipboard
+        function base64_copyOutput() {
+          const textToCopy = base64_output.innerText;
+          if (
+            !textToCopy ||
+            textToCopy === "— Empty input —" ||
+            textToCopy.startsWith("⚠️")
+          ) {
+            base64_showStatus(
+              "Nothing to copy — valid output required",
+              "error",
+            );
+            return;
+          }
+          navigator.clipboard
+            .writeText(textToCopy)
+            .then(() => {
+              base64_showStatus("✓ Copied to clipboard!", "success");
+            })
+            .catch(() => {
+              // Fallback
+              try {
+                const range = document.createRange();
+                range.selectNode(base64_output);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                document.execCommand("copy");
+                window.getSelection().removeAllRanges();
+                base64_showStatus("✓ Copied to clipboard!", "success");
+              } catch (e) {
+                base64_showStatus(
+                  "Could not copy — please select manually",
+                  "error",
+                );
+              }
+            });
+        }
+
+        // ========== EVENT LISTENERS ==========
+
+        // Live conversion on input with debounce
+        let base64_debounceTimer;
+        base64_input.addEventListener("input", function () {
+          clearTimeout(base64_debounceTimer);
+          base64_debounceTimer = setTimeout(() => {
+            base64_convert();
+          }, 150);
+        });
+
+        // Mode toggle buttons
+        base64_modeEncode.addEventListener("click", function () {
+          if (base64_currentMode === "encode") return;
+          base64_setMode("encode");
+        });
+
+        base64_modeDecode.addEventListener("click", function () {
+          if (base64_currentMode === "decode") return;
+          base64_setMode("decode");
+        });
+
+        // Manual convert button
+base64_convertBtn.addEventListener("click", function () {
+
+    base64_convert();
+
+    addActivity(
+        "Base64 Converter",
+        base64_currentMode === "encode"
+            ? "Encoded Text"
+            : "Decoded Text"
+    );
+
+});
+        // Clear button
+        base64_clearBtn.addEventListener("click", base64_clearAll);
+
+        // Copy button
+        base64_copyBtn.addEventListener("click", base64_copyOutput);
+
+        // Keyboard shortcut: Ctrl+Enter to convert
+        base64_input.addEventListener("keydown", function (e) {
+          if (e.ctrlKey && e.key === "Enter") {
+            e.preventDefault();
+            base64_convert();
+          }
+        });
+
+       // Initialize with default mode
+        base64_setMode("encode");
+
+        // Also show a quick example on first load
+        const base64_exampleText = "Hello, DevToolkit!";
+        base64_input.value = base64_exampleText;
+        base64_convert(false);
+
+
+
+        
+        // Expose global functions with prefix
+        window.base64_convert = base64_convert;
+        window.base64_clearAll = base64_clearAll;
+        window.base64_copyOutput = base64_copyOutput;
+      })();
+
+      (function () {
+        // ========== ALL FUNCTIONS AND VARIABLES PREFIXED WITH "color_" ==========
+
+        // DOM refs
+        const color_picker = document.getElementById("color_picker");
+        const color_hexInput = document.getElementById("color_hexInput");
+        const color_previewBox = document.getElementById("color_previewBox");
+        const color_hexValue = document.getElementById("color_hexValue");
+        const color_rgbValue = document.getElementById("color_rgbValue");
+        const color_hslValue = document.getElementById("color_hslValue");
+        const color_cmykValue = document.getElementById("color_cmykValue");
+        const color_status = document.getElementById("color_status");
+        const color_statusText = document.getElementById("color_statusText");
+        const color_resetBtn = document.getElementById("color_resetBtn");
+
+        // ========== CONVERSION FUNCTIONS ==========
+
+        // HEX → RGB
+        function color_hexToRgb(hex) {
+          const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+          if (!result) return null;
+          return {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16),
+          };
+        }
+
+        // RGB → HEX
+        function color_rgbToHex(r, g, b) {
+          return (
+            "#" +
+            [r, g, b]
+              .map((c) => {
+                const hex = c.toString(16);
+                return hex.length === 1 ? "0" + hex : hex;
+              })
+              .join("")
+          );
+        }
+
+        // RGB → HSL
+        function color_rgbToHsl(r, g, b) {
+          r /= 255;
+          g /= 255;
+          b /= 255;
+          const max = Math.max(r, g, b);
+          const min = Math.min(r, g, b);
+          let h,
+            s,
+            l = (max + min) / 2;
+
+          if (max === min) {
+            h = s = 0;
+          } else {
+            const d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+              case r:
+                h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+                break;
+              case g:
+                h = ((b - r) / d + 2) / 6;
+                break;
+              case b:
+                h = ((r - g) / d + 4) / 6;
+                break;
+            }
+          }
+
+          return {
+            h: Math.round(h * 360),
+            s: Math.round(s * 100),
+            l: Math.round(l * 100),
+          };
+        }
+
+        // RGB → CMYK
+        function color_rgbToCmyk(r, g, b) {
+          const cr = r / 255;
+          const cg = g / 255;
+          const cb = b / 255;
+          const k = 1 - Math.max(cr, cg, cb);
+          if (k === 1) {
+            return { c: 0, m: 0, y: 0, k: 100 };
+          }
+          const c = Math.round(((1 - cr - k) / (1 - k)) * 100);
+          const m = Math.round(((1 - cg - k) / (1 - k)) * 100);
+          const y = Math.round(((1 - cb - k) / (1 - k)) * 100);
+          return {
+            c: Math.min(100, Math.max(0, c)),
+            m: Math.min(100, Math.max(0, m)),
+            y: Math.min(100, Math.max(0, y)),
+            k: Math.round(k * 100),
+          };
+        }
+
+        // ========== CORE UPDATE FUNCTION ==========
+
+        function color_updateAll(hexColor) {
+          // Validate and clean HEX
+          let cleanHex = hexColor.trim();
+          if (!cleanHex.startsWith("#")) {
+            cleanHex = "#" + cleanHex;
+          }
+          // Validate HEX format
+          const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+          if (!hexRegex.test(cleanHex)) {
+            color_hexInput.classList.add("error");
+            color_showStatus(
+              "Invalid HEX format. Use #RRGGBB or #RGB",
+              "error",
+            );
+            return false;
+          }
+
+          // Expand shorthand
+          if (cleanHex.length === 4) {
+            cleanHex =
+              "#" +
+              cleanHex[1] +
+              cleanHex[1] +
+              cleanHex[2] +
+              cleanHex[2] +
+              cleanHex[3] +
+              cleanHex[3];
+          }
+
+          color_hexInput.classList.remove("error");
+          const rgb = color_hexToRgb(cleanHex);
+          if (!rgb) {
+            color_showStatus("Invalid HEX value", "error");
+            return false;
+          }
+
+          const { r, g, b } = rgb;
+
+          // Update picker and preview
+          color_picker.value = cleanHex;
+          color_previewBox.style.background = cleanHex;
+
+          // Update HEX display
+          const hexDisplay = cleanHex.toUpperCase();
+          color_hexValue.textContent = hexDisplay;
+
+          // Update RGB
+          const rgbDisplay = `rgb(${r}, ${g}, ${b})`;
+          color_rgbValue.textContent = rgbDisplay;
+
+          // Update HSL
+          const hsl = color_rgbToHsl(r, g, b);
+          const hslDisplay = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+          color_hslValue.textContent = hslDisplay;
+
+          // Update CMYK
+          const cmyk = color_rgbToCmyk(r, g, b);
+          const cmykDisplay = `cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)`;
+          color_cmykValue.textContent = cmykDisplay;
+
+          // Update hex input if it was typed manually and differs
+          if (color_hexInput.value.trim().toUpperCase() !== hexDisplay) {
+            color_hexInput.value = hexDisplay;
+          }
+
+          color_showStatus("✓ Color updated", "success");
+          return true;
+        }
+
+        // ========== STATUS HELPER ==========
+
+        let color_statusTimer;
+
+        function color_showStatus(message, type = "success") {
+          color_statusText.innerText = message;
+          color_status.className = "color-status " + type;
+          color_status.style.display = "flex";
+          clearTimeout(color_statusTimer);
+          color_statusTimer = setTimeout(() => {
+            color_status.style.display = "none";
+          }, 2500);
+        }
+
+        // ========== COPY HELPERS ==========
+
+        function color_copyText(text, buttonElement) {
+          navigator.clipboard
+            .writeText(text)
+            .then(() => {
+              const originalText = buttonElement.innerHTML;
+              buttonElement.innerHTML =
+                '<i class="bi bi-check-lg"></i> Copied!';
+              setTimeout(() => {
+                buttonElement.innerHTML = originalText;
+              }, 1500);
+              color_showStatus("✓ Copied to clipboard", "success");
+
+               addActivity(
+        "Color Picker",
+        "Copied Color Value"
+      );
+            })
+            .catch(() => {
+              color_showStatus(
+                "Could not copy — try selecting manually",
+                "error",
+              );
+            });
+        }
+
+        // ========== EVENT LISTENERS ==========
+
+        // Color picker change
+        color_picker.addEventListener("input", function () {
+          color_hexInput.value = this.value;
+          color_updateAll(this.value);
+        });
+
+        // Manual HEX input
+        color_hexInput.addEventListener("input", function () {
+          const val = this.value.trim();
+          if (val === "") {
+            color_hexInput.classList.remove("error");
+            color_status.style.display = "none";
+            return;
+          }
+          // Allow partial typing, but only update if it's a valid full hex
+          if (
+            /^#?[A-Fa-f0-9]{6}$/.test(val) ||
+            /^#?[A-Fa-fa0-9]{3}$/.test(val)
+          ) {
+            color_updateAll(val);
+          } else {
+            // Show error only if it's getting long enough
+            if (val.length >= 3) {
+              color_hexInput.classList.add("error");
+              color_showStatus(
+                "Invalid HEX format — use #RRGGBB or #RGB",
+                "error",
+              );
+            } else {
+              color_hexInput.classList.remove("error");
+              color_status.style.display = "none";
+            }
+          }
+        });
+
+        // HEX input - blur to auto-correct
+        color_hexInput.addEventListener("blur", function () {
+          const val = this.value.trim();
+          if (
+            (val && /^#?[A-Fa-f0-9]{6}$/.test(val)) ||
+            /^#?[A-Fa-f0-9]{3}$/.test(val)
+          ) {
+            color_updateAll(val);
+          }
+        });
+
+        // Reset to default
+        function color_reset() {
+          const defaultColor = "#A16207";
+          color_picker.value = defaultColor;
+          color_hexInput.value = defaultColor;
+          color_updateAll(defaultColor);
+          color_showStatus("Reset to default color", "success");
+          addActivity(
+    "Color Picker",
+    "Reset Color"
+);
+        }
+
+        color_resetBtn.addEventListener("click", color_reset);
+
+        // Copy buttons for each format
+        document.querySelectorAll(".color-copy-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const targetId = this.getAttribute("data-target");
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) {
+              color_copyText(targetEl.textContent, this);
+            }
+          });
+        });
+
+        // ========== INITIALIZATION ==========
+
+        // Set initial color
+        color_updateAll("#A16207");
+
+        // Expose global functions with prefix
+        window.color_updateAll = color_updateAll;
+        window.color_reset = color_reset;
+      })();
+
+      (function () {
+        "use strict";
+
+        // ---- DOM refs ----
+        const patternInput = document.getElementById("regex-pattern");
+        const testString = document.getElementById("regex-teststring");
+        const flagBtns = document.querySelectorAll(".regex-flag-btn");
+        const matchBtn = document.getElementById("regex-match-btn");
+        const clearBtn = document.getElementById("regex-clear-btn");
+        const resultsContainer = document.getElementById("regex-results");
+        const errorBox = document.getElementById("regex-error-box");
+        const errorText = document.getElementById("regex-error-text");
+        const resultsBox = document.getElementById("regex-results-box");
+        const matchCountSpan = document.getElementById("regex-match-count");
+        const matchList = document.getElementById("regex-match-list");
+
+        // ---- helpers ----
+        function escapeHtml(str) {
+          if (!str) return "";
+          return str
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+        }
+
+        function getActiveFlags() {
+          const active = [];
+          flagBtns.forEach((btn) => {
+            if (btn.classList.contains("active")) {
+              active.push(btn.dataset.flag);
+            }
+          });
+          return active.join("");
+        }
+
+        function showError(message) {
+          errorText.textContent = message;
+          errorBox.classList.add("visible");
+          resultsBox.classList.remove("visible");
+          resultsContainer.classList.add("visible");
+        }
+
+        function hideError() {
+          errorBox.classList.remove("visible");
+        }
+
+        function showResults(matches) {
+          hideError();
+          resultsContainer.classList.add("visible");
+          resultsBox.classList.add("visible");
+
+          const count = matches.length;
+          matchCountSpan.textContent = count;
+          matchCountSpan.className =
+            "regex-stat-badge" + (count > 0 ? " has-matches" : "");
+
+          if (count === 0) {
+            matchList.innerHTML =
+              '<li class="regex-no-match">• No matches found.</li>';
+            return;
+          }
+
+          let html = "";
+          matches.forEach((m, i) => {
+            const display =
+              m === ""
+                ? '<em style="color:#B88A5E;">empty</em>'
+                : escapeHtml(m);
+            html += `
+          <li class="regex-match-item">
+            <span class="regex-match-num">${i + 1}</span>
+            <code class="regex-match-chip">${display}</code>
+          </li>
+        `;
+          });
+          matchList.innerHTML = html;
+        }
+
+        // ---- core: run match ----
+        function runMatch() {
+          const pattern = patternInput.value.trim();
+          const text = testString.value;
+
+          // reset UI
+          hideError();
+          resultsContainer.classList.remove("visible");
+          resultsBox.classList.remove("visible");
+
+          // validation
+          if (!pattern) {
+            showError("Please enter a regex pattern.");
+            return;
+          }
+
+          let re;
+          try {
+            re = new RegExp(pattern, getActiveFlags());
+          } catch (err) {
+            showError("Invalid regular expression: " + err.message);
+            return;
+          }
+
+          // execute
+          const matches = [];
+          if (re.flags.includes("g")) {
+            let m;
+            const safe = new RegExp(re.source, re.flags);
+            while ((m = safe.exec(text)) !== null) {
+              matches.push(m[0]);
+              if (m[0].length === 0) safe.lastIndex++; // avoid infinite loop on zero-length
+            }
+          } else {
+            const m = re.exec(text);
+            if (m) matches.push(m[0]);
+          }
+
+          showResults(matches);
+          addActivity(
+    "Regex Tester",
+    "Matched Pattern"
+);
+        }
+
+        // ---- clear everything ----
+        function clearAll() {
+          patternInput.value = "";
+          testString.value = "";
+          resultsContainer.classList.remove("visible");
+          resultsBox.classList.remove("visible");
+          hideError();
+          // reset match list to empty state
+          matchList.innerHTML =
+            '<li class="regex-no-match">• No matches found.</li>';
+          matchCountSpan.textContent = "0";
+          matchCountSpan.className = "regex-stat-badge";
+
+          addActivity(
+    "Regex Tester",
+    "Cleared"
+);
+        }
+
+        // ---- flag toggle (using event delegation) ----
+        function toggleFlag(btn) {
+          btn.classList.toggle("active");
+        }
+
+        // ---- event listeners (no inline onclick) ----
+        matchBtn.addEventListener("click", runMatch);
+
+        clearBtn.addEventListener("click", clearAll);
+
+        flagBtns.forEach((btn) => {
+          btn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            toggleFlag(this);
+          });
+        });
+
+        // Enter key on pattern input triggers match
+        patternInput.addEventListener("keydown", function (e) {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            runMatch();
+          }
+        });
+
+        // Ctrl+Enter on textarea also triggers match
+        testString.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            runMatch();
+          }
+        });
+
+        // ---- expose public API if needed (but keep scoped) ----
+        // For debugging only – not required.
+        // window.__regexTool = { runMatch, clearAll };
+
+        console.log("✅ Regex tool initialized (clean, scoped, event-driven)");
+      })();
+
+
+
+
+
+
+
+
+
+
+
+
+function loadActivity() {
+
+    const tbody = document.querySelector("#activityTable tbody");
+
+    if (!tbody) return;
+
+    const history =
+        JSON.parse(localStorage.getItem("activityHistory")) || [];
+
+    if (history.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="4" style="text-align:center;color:#7B6A58;">
+                    No recent activity
+                </td>
+            </tr>`;
+        return;
+    }
+
+    tbody.innerHTML = "";
+
+    history.forEach((item, index) => {
+
+        tbody.innerHTML += `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${item.tool}</td>
+                <td>${item.action}</td>
+                <td>${item.time}</td>
+            </tr>
+        `;
+
+    });
+
+}
+
+
+
+//activity history
+
+      function addActivity(tool, action) {
+
+    let history = JSON.parse(localStorage.getItem("activityHistory")) || [];
+
+    history.unshift({
+        tool: tool,
+        action: action,
+        time: new Date().toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit'
+        })
+    });
+
+    localStorage.setItem("activityHistory", JSON.stringify(history));
+
+    loadActivity();
+}
+    </script>
+  </body>
+</html>

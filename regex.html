@@ -1,0 +1,848 @@
+<!-- ============================================================
+     REGEX TOOL – Clean, modular, scoped replacement
+     Drop this into your existing <section id="regex"> block.
+     ============================================================ -->
+
+<!-- ========== REGEX TOOL CSS (scoped with .regex-wrapper) ========== -->
+<style>
+  /* ---- reset / base for the wrapper ---- */
+  .regex-wrapper {
+    --regex-bg: #f8f4ee;
+    --regex-surface: #ffffff;
+    --regex-border: #d6c7b8;
+    --regex-primary: #a16207;
+    --regex-primary-dark: #854d0e;
+    --regex-text: #3e2c23;
+    --regex-text-sec: #7b6a58;
+    --regex-soft: #f0e8df;
+    --regex-error-bg: #fef2f2;
+    --regex-error-border: #fecaca;
+    --regex-error-text: #b91c1c;
+    --regex-success: #10b981;
+    --regex-radius: 16px;
+    --regex-shadow: 0 4px 12px rgba(62, 44, 35, 0.06);
+
+    display: flex;
+    gap: 48px;
+    padding: 0 8px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: flex-start;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    color: var(--regex-text);
+  }
+
+  /* ---- left column (illustration + copy) ---- */
+  .regex-wrapper .regex-left {
+    flex: 0 0 38%;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    position: sticky;
+    top: 32px;
+  }
+
+  .regex-wrapper .regex-illustration {
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .regex-wrapper .regex-hero h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--regex-text);
+    margin: 0 0 6px 0;
+    line-height: 1.2;
+  }
+
+  .regex-wrapper .regex-hero p {
+    font-size: 15px;
+    color: var(--regex-text-sec);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .regex-wrapper .regex-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .regex-wrapper .regex-features li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--regex-text-sec);
+  }
+
+  .regex-wrapper .regex-feature-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--regex-soft);
+    color: var(--regex-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ---- right column (card) ---- */
+  .regex-wrapper .regex-right {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .regex-wrapper .regex-card {
+    background: var(--regex-surface);
+    border-radius: 40px;
+    border: 1px solid var(--regex-border);
+    box-shadow: var(--regex-shadow);
+    padding: 40px 40px 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .regex-wrapper .regex-card-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--regex-text);
+    margin: 0 0 4px 0;
+  }
+
+  .regex-wrapper .regex-card-header p {
+    font-size: 13px;
+    color: var(--regex-text-sec);
+    margin: 0;
+  }
+
+  .regex-wrapper .regex-divider {
+    height: 1px;
+    background: var(--regex-border);
+    margin: 0;
+  }
+
+  /* ---- form fields ---- */
+  .regex-wrapper .regex-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .regex-wrapper .regex-field label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--regex-text);
+  }
+
+  /* pattern input with slashes */
+  .regex-wrapper .regex-pattern-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1.5px solid var(--regex-border);
+    background: var(--regex-bg);
+    border-radius: 12px;
+    padding: 0 14px;
+    height: 46px;
+    transition: border-color 0.2s;
+  }
+
+  .regex-wrapper .regex-pattern-wrap:focus-within {
+    border-color: var(--regex-primary);
+    box-shadow: 0 0 0 3px rgba(161, 98, 7, 0.12);
+  }
+
+  .regex-wrapper .regex-pattern-wrap .regex-slash {
+    font-family: "SF Mono", "Fira Code", monospace;
+    color: var(--regex-border);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .regex-wrapper .regex-pattern-wrap input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 14px;
+    color: var(--regex-text);
+    padding: 8px 0;
+  }
+
+  .regex-wrapper .regex-pattern-wrap input::placeholder {
+    color: var(--regex-text-sec);
+    opacity: 0.45;
+  }
+
+  /* flags */
+  .regex-wrapper .regex-flags {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .regex-wrapper .regex-flag-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+    transition: transform 0.1s;
+  }
+
+  .regex-wrapper .regex-flag-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .regex-wrapper .regex-flag-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 14px;
+    font-weight: 700;
+    border: 1.5px solid var(--regex-border);
+    background: var(--regex-soft);
+    color: var(--regex-text-sec);
+    transition: all 0.2s;
+  }
+
+  .regex-wrapper .regex-flag-btn.active .regex-flag-circle {
+    background: var(--regex-primary);
+    color: #fff;
+    border-color: var(--regex-primary);
+    box-shadow: 0 2px 8px rgba(161, 98, 7, 0.25);
+  }
+
+  .regex-wrapper .regex-flag-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--regex-text-sec);
+    transition: color 0.2s;
+  }
+
+  .regex-wrapper .regex-flag-btn.active .regex-flag-label {
+    color: var(--regex-primary);
+  }
+
+  /* textarea */
+  .regex-wrapper .regex-textarea {
+    width: 100%;
+    min-height: 140px;
+    resize: vertical;
+    outline: none;
+    border: 1.5px solid var(--regex-border);
+    background: var(--regex-bg);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: var(--regex-text);
+    line-height: 1.65;
+    font-family: "Inter", system-ui, sans-serif;
+    transition: border-color 0.2s;
+  }
+
+  .regex-wrapper .regex-textarea:focus {
+    border-color: var(--regex-primary);
+    box-shadow: 0 0 0 3px rgba(161, 98, 7, 0.10);
+  }
+
+  .regex-wrapper .regex-textarea::placeholder {
+    color: var(--regex-text-sec);
+    opacity: 0.4;
+  }
+
+  /* buttons */
+  .regex-wrapper .regex-btn-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .regex-wrapper .regex-btn-primary {
+    flex: 1;
+    padding: 12px 0;
+    border-radius: 12px;
+    background: var(--regex-primary);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(161, 98, 7, 0.25);
+    transition: background 0.2s, transform 0.1s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 120px;
+  }
+
+  .regex-wrapper .regex-btn-primary:hover {
+    background: var(--regex-primary-dark);
+  }
+
+  .regex-wrapper .regex-btn-primary:active {
+    transform: scale(0.97);
+  }
+
+  .regex-wrapper .regex-btn-secondary {
+    padding: 12px 24px;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--regex-text-sec);
+    font-size: 15px;
+    font-weight: 600;
+    border: 1.5px solid var(--regex-border);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s, color 0.2s, transform 0.1s;
+  }
+
+  .regex-wrapper .regex-btn-secondary:hover {
+    background: var(--regex-soft);
+    color: var(--regex-text);
+  }
+
+  .regex-wrapper .regex-btn-secondary:active {
+    transform: scale(0.97);
+  }
+
+  /* ---- results panel ---- */
+  .regex-wrapper .regex-results {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 4px;
+  }
+
+  .regex-wrapper .regex-results.visible {
+    display: flex;
+  }
+
+  .regex-wrapper .regex-error-box {
+    display: none;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--regex-error-bg);
+    border: 1px solid var(--regex-error-border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--regex-error-text);
+  }
+
+  .regex-wrapper .regex-error-box.visible {
+    display: flex;
+  }
+
+  .regex-wrapper .regex-error-box svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .regex-wrapper .regex-results-box {
+    background: var(--regex-bg);
+    border: 1px solid var(--regex-border);
+    border-radius: 16px;
+    padding: 20px;
+    display: none;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .regex-wrapper .regex-results-box.visible {
+    display: flex;
+  }
+
+  .regex-wrapper .regex-stat-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .regex-wrapper .regex-stat-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--regex-text-sec);
+  }
+
+  .regex-wrapper .regex-stat-badge {
+    font-size: 13px;
+    font-weight: 700;
+    padding: 2px 12px;
+    border-radius: 999px;
+    background: var(--regex-soft);
+    color: var(--regex-text-sec);
+  }
+
+  .regex-wrapper .regex-stat-badge.has-matches {
+    background: var(--regex-primary);
+    color: #fff;
+  }
+
+  .regex-wrapper .regex-matches-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--regex-text);
+    margin: 0;
+  }
+
+  .regex-wrapper .regex-match-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .regex-wrapper .regex-match-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 2px 0;
+  }
+
+  .regex-wrapper .regex-match-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--regex-soft);
+    color: var(--regex-primary);
+    font-size: 10px;
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .regex-wrapper .regex-match-chip {
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 13px;
+    padding: 2px 12px;
+    border-radius: 8px;
+    background: var(--regex-surface);
+    color: var(--regex-text);
+    border: 1px solid var(--regex-border);
+    word-break: break-all;
+  }
+
+  .regex-wrapper .regex-no-match {
+    font-size: 13px;
+    color: var(--regex-text-sec);
+    padding: 4px 0;
+  }
+
+  /* ---- responsive ---- */
+  @media (max-width: 900px) {
+    .regex-wrapper {
+      flex-direction: column;
+      padding: 0;
+      gap: 28px;
+    }
+
+    .regex-wrapper .regex-left {
+      flex: 1 1 auto;
+      position: static;
+      width: 100%;
+    }
+
+    .regex-wrapper .regex-illustration {
+      max-width: 200px;
+    }
+
+    .regex-wrapper .regex-card {
+      padding: 28px 20px 32px;
+    }
+
+    .regex-wrapper .regex-flags {
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .regex-wrapper .regex-btn-row {
+      flex-direction: column;
+    }
+
+    .regex-wrapper .regex-btn-primary,
+    .regex-wrapper .regex-btn-secondary {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .regex-wrapper .regex-card {
+      padding: 20px 16px 24px;
+    }
+
+    .regex-wrapper .regex-pattern-wrap {
+      padding: 0 10px;
+      height: 42px;
+    }
+  }
+</style>
+
+<!-- ========== REGEX TOOL HTML ========== -->
+<section id="regex" style="display: none;">
+  <div class="regex-wrapper">
+
+    <!-- LEFT COLUMN: illustration + copy -->
+    <aside class="regex-left">
+      <!-- SVG illustration (same as before, but cleaned) -->
+      <svg class="regex-illustration" viewBox="0 0 320 280" fill="none"
+           xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="60" y="40" width="200" height="140" rx="12" fill="#fff" stroke="#B88A5E" stroke-width="2.5" />
+        <rect x="70" y="50" width="180" height="115" rx="7" fill="#F8F2EC" />
+        <rect x="82" y="65" width="60" height="7" rx="3" fill="#A16207" opacity=".7" />
+        <rect x="82" y="80" width="110" height="5" rx="2.5" fill="#5C4A42" opacity=".35" />
+        <rect x="82" y="92" width="90" height="5" rx="2.5" fill="#5C4A42" opacity=".25" />
+        <text x="82" y="120" fill="#A16207" font-size="11" font-family="monospace" font-weight="700">\d+</text>
+        <text x="118" y="120" fill="#B88A5E" font-size="11" font-family="monospace">[A-Z]+</text>
+        <rect x="82" y="128" width="130" height="5" rx="2.5" fill="#D6C5B8" opacity=".5" />
+        <rect x="82" y="140" width="80" height="5" rx="2.5" fill="#D6C5B8" opacity=".35" />
+        <rect x="145" y="180" width="30" height="18" rx="3" fill="#D6C5B8" />
+        <rect x="125" y="195" width="70" height="8" rx="4" fill="#B88A5E" opacity=".6" />
+        <rect x="55" y="210" width="210" height="12" rx="6" fill="#EDE4DA" stroke="#D6C5B8" stroke-width="1.5" />
+        <rect x="22" y="80" width="32" height="20" rx="6" fill="#A16207" opacity=".12" />
+        <text x="27" y="95" fill="#A16207" font-size="10" font-family="monospace" font-weight="700">.*</text>
+        <rect x="270" y="100" width="36" height="20" rx="6" fill="#B88A5E" opacity=".15" />
+        <text x="275" y="115" fill="#814E08" font-size="10" font-family="monospace">^$</text>
+        <rect x="14" y="140" width="36" height="20" rx="6" fill="#5C4A42" opacity=".1" />
+        <text x="19" y="155" fill="#5C4A42" font-size="10" font-family="monospace">\w+</text>
+        <circle cx="88" cy="57" r="3" fill="#D6C5B8" />
+        <circle cx="100" cy="57" r="3" fill="#D6C5B8" />
+        <circle cx="112" cy="57" r="3" fill="#B88A5E" opacity=".5" />
+      </svg>
+
+      <div class="regex-hero">
+        <h1>Regex Tool</h1>
+        <p>Test, validate and debug your regular expressions instantly.</p>
+      </div>
+
+      <ul class="regex-features">
+        <li>
+          <span class="regex-feature-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+          </span>
+          Live Regex Testing
+        </li>
+        <li>
+          <span class="regex-feature-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+          </span>
+          Fast Pattern Matching
+        </li>
+        <li>
+          <span class="regex-feature-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+            </svg>
+          </span>
+          Beginner Friendly
+        </li>
+      </ul>
+    </aside>
+
+    <!-- RIGHT COLUMN: card with regex controls -->
+    <section class="regex-right">
+      <div class="regex-card">
+
+        <!-- header -->
+        <div class="regex-card-header">
+          <h2>Regular Expression Tester</h2>
+          <p>Enter a regex pattern and test it against any text.</p>
+        </div>
+
+        <hr class="regex-divider" />
+
+        <!-- pattern -->
+        <div class="regex-field">
+          <label for="regex-pattern">Regex Pattern</label>
+          <div class="regex-pattern-wrap">
+            <span class="regex-slash">/</span>
+            <input
+              id="regex-pattern"
+              type="text"
+              placeholder="Example: \d+  |  [A-Z]+  |  ^hello$"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <span class="regex-slash">/</span>
+          </div>
+        </div>
+
+        <!-- flags -->
+        <div class="regex-field">
+          <label>Regex Flags</label>
+          <div class="regex-flags" role="group" aria-label="Regex flags">
+            <button class="regex-flag-btn active" data-flag="g" type="button">
+              <span class="regex-flag-circle">g</span>
+              <span class="regex-flag-label">Global</span>
+            </button>
+            <button class="regex-flag-btn" data-flag="i" type="button">
+              <span class="regex-flag-circle">i</span>
+              <span class="regex-flag-label">Ignore Case</span>
+            </button>
+            <button class="regex-flag-btn" data-flag="m" type="button">
+              <span class="regex-flag-circle">m</span>
+              <span class="regex-flag-label">Multiline</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- test string -->
+        <div class="regex-field">
+          <label for="regex-teststring">Test String</label>
+          <textarea
+            id="regex-teststring"
+            class="regex-textarea"
+            placeholder="Paste or type your text here…"
+            spellcheck="false"
+          ></textarea>
+        </div>
+
+        <!-- action buttons -->
+        <div class="regex-btn-row">
+          <button class="regex-btn-primary" id="regex-match-btn" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Match
+          </button>
+          <button class="regex-btn-secondary" id="regex-clear-btn" type="button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+            Clear
+          </button>
+        </div>
+
+        <!-- results panel -->
+        <div class="regex-results" id="regex-results" aria-live="polite">
+
+          <!-- error box -->
+          <div class="regex-error-box" id="regex-error-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <span id="regex-error-text"></span>
+          </div>
+
+          <!-- results box -->
+          <div class="regex-results-box" id="regex-results-box">
+            <div class="regex-stat-row">
+              <span class="regex-stat-label">Total Matches:</span>
+              <span class="regex-stat-badge" id="regex-match-count">0</span>
+            </div>
+            <hr class="regex-divider" />
+            <p class="regex-matches-title">Matches</p>
+            <ul class="regex-match-list" id="regex-match-list">
+              <li class="regex-no-match">• No matches found.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</section>
+
+<!-- ========== REGEX TOOL JAVASCRIPT (encapsulated IIFE) ========== -->
+<script>
+  (function() {
+    'use strict';
+
+    // ---- DOM refs ----
+    const patternInput = document.getElementById('regex-pattern');
+    const testString = document.getElementById('regex-teststring');
+    const flagBtns = document.querySelectorAll('.regex-flag-btn');
+    const matchBtn = document.getElementById('regex-match-btn');
+    const clearBtn = document.getElementById('regex-clear-btn');
+    const resultsContainer = document.getElementById('regex-results');
+    const errorBox = document.getElementById('regex-error-box');
+    const errorText = document.getElementById('regex-error-text');
+    const resultsBox = document.getElementById('regex-results-box');
+    const matchCountSpan = document.getElementById('regex-match-count');
+    const matchList = document.getElementById('regex-match-list');
+
+    // ---- helpers ----
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function getActiveFlags() {
+      const active = [];
+      flagBtns.forEach(btn => {
+        if (btn.classList.contains('active')) {
+          active.push(btn.dataset.flag);
+        }
+      });
+      return active.join('');
+    }
+
+    function showError(message) {
+      errorText.textContent = message;
+      errorBox.classList.add('visible');
+      resultsBox.classList.remove('visible');
+      resultsContainer.classList.add('visible');
+    }
+
+    function hideError() {
+      errorBox.classList.remove('visible');
+    }
+
+    function showResults(matches) {
+      hideError();
+      resultsContainer.classList.add('visible');
+      resultsBox.classList.add('visible');
+
+      const count = matches.length;
+      matchCountSpan.textContent = count;
+      matchCountSpan.className = 'regex-stat-badge' + (count > 0 ? ' has-matches' : '');
+
+      if (count === 0) {
+        matchList.innerHTML = '<li class="regex-no-match">• No matches found.</li>';
+        return;
+      }
+
+      let html = '';
+      matches.forEach((m, i) => {
+        const display = m === '' ? '<em style="color:#B88A5E;">empty</em>' : escapeHtml(m);
+        html += `
+          <li class="regex-match-item">
+            <span class="regex-match-num">${i + 1}</span>
+            <code class="regex-match-chip">${display}</code>
+          </li>
+        `;
+      });
+      matchList.innerHTML = html;
+    }
+
+    // ---- core: run match ----
+    function runMatch() {
+      const pattern = patternInput.value.trim();
+      const text = testString.value;
+
+      // reset UI
+      hideError();
+      resultsContainer.classList.remove('visible');
+      resultsBox.classList.remove('visible');
+
+      // validation
+      if (!pattern) {
+        showError('Please enter a regex pattern.');
+        return;
+      }
+
+      let re;
+      try {
+        re = new RegExp(pattern, getActiveFlags());
+      } catch (err) {
+        showError('Invalid regular expression: ' + err.message);
+        return;
+      }
+
+      // execute
+      const matches = [];
+      if (re.flags.includes('g')) {
+        let m;
+        const safe = new RegExp(re.source, re.flags);
+        while ((m = safe.exec(text)) !== null) {
+          matches.push(m[0]);
+          if (m[0].length === 0) safe.lastIndex++; // avoid infinite loop on zero-length
+        }
+      } else {
+        const m = re.exec(text);
+        if (m) matches.push(m[0]);
+      }
+
+      showResults(matches);
+    }
+
+    // ---- clear everything ----
+    function clearAll() {
+      patternInput.value = '';
+      testString.value = '';
+      resultsContainer.classList.remove('visible');
+      resultsBox.classList.remove('visible');
+      hideError();
+      // reset match list to empty state
+      matchList.innerHTML = '<li class="regex-no-match">• No matches found.</li>';
+      matchCountSpan.textContent = '0';
+      matchCountSpan.className = 'regex-stat-badge';
+    }
+
+    // ---- flag toggle (using event delegation) ----
+    function toggleFlag(btn) {
+      btn.classList.toggle('active');
+    }
+
+    // ---- event listeners (no inline onclick) ----
+    matchBtn.addEventListener('click', runMatch);
+
+    clearBtn.addEventListener('click', clearAll);
+
+    flagBtns.forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleFlag(this);
+      });
+    });
+
+    // Enter key on pattern input triggers match
+    patternInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        runMatch();
+      }
+    });
+
+    // Ctrl+Enter on textarea also triggers match
+    testString.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        runMatch();
+      }
+    });
+
+    // ---- expose public API if needed (but keep scoped) ----
+    // For debugging only – not required.
+    // window.__regexTool = { runMatch, clearAll };
+
+    console.log('✅ Regex tool initialized (clean, scoped, event-driven)');
+  })();
+</script>
